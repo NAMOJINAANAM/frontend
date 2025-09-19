@@ -1,16 +1,45 @@
 @import "tailwindcss";
 
+/* styles/colors.css */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --color-purple: #9A3EAD;
+  --color-gold: #C6A85A;
+  --color-flame-orange: #E25B3A;
+  --color-flame-red: #D12B4B;
+
+  /* Neutral Colors */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-light-gray: #D9D9D9;
+  --color-beige: #BDAE98;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Example utility classes (optional) */
+.bg-purple { background-color: var(--color-purple); }
+.bg-gold { background-color: var(--color-gold); }
+.bg-flame-orange { background-color: var(--color-flame-orange); }
+.bg-flame-red { background-color: var(--color-flame-red); }
+.bg-black { background-color: var(--color-black); }
+.bg-white { background-color: var(--color-white); }
+.bg-beige { background-color: var(--color-beige); }
+
+.text-purple { color: var(--color-purple); }
+.text-gold { color: var(--color-gold); }
+.text-flame-orange { color: var(--color-flame-orange); }
+.text-flame-red { color: var(--color-flame-red); }
+.text-black { color: var(--color-black); }
+.text-white { color: var(--color-white); }
+.text-beige { color: var(--color-beige); }
+
+.border-purple { border-color: var(--color-purple); }
+.border-gold { border-color: var(--color-gold); }
+.border-flame-orange { border-color: var(--color-flame-orange); }
+.border-flame-red { border-color: var(--color-flame-red); }
+.border-black { border-color: var(--color-black); }
+.border-white { border-color: var(--color-white); }
+.border-beige { border-color: var(--color-beige); }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -23,4 +52,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-from-left {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+.animate-slide-in-from-right {
+  animation: slideInFromRight 0.5s ease-out forwards;
 }
