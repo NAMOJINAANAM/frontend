@@ -118,7 +118,7 @@ const ZoneCarousel = () => {
   const zoneStyle = getZoneStyle(slides[currentSlide].heading);
 
   return (
-    <div className="relative w-full h-screen max-h-[700px] overflow-hidden rounded-2xl shadow-2xl">
+    <div className="relative w-full h-screen max-h-[400px] sm:max-h-[700px] overflow-hidden rounded-2xl shadow-2xl">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div

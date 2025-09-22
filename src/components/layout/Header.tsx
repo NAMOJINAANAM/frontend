@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -71,19 +71,33 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showNavbar, setShowNavbar] = useState(true);
   const pathname = usePathname();
-const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Handle scroll events
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-      setShowScrollTop(window.scrollY > 300);
-    };
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    
+    // Show/hide navbar based on scroll direction
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // Scrolling down
+      setShowNavbar(false);
+    } else {
+      // Scrolling up
+      setShowNavbar(true);
+    }
+    
+    setLastScrollY(currentScrollY);
+    setIsScrolled(currentScrollY > 10);
+    setShowScrollTop(currentScrollY > 300);
+  }, [lastScrollY]);
 
-    window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   // Scroll to top function
   const scrollToTop = () => {
@@ -92,10 +106,10 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event:any) => {
+    const handleClickOutside = (event: any) => {
       if (activeDropdown !== null && 
           dropdownRefs.current[activeDropdown] && 
-          !dropdownRefs.current[activeDropdown]!.contains(event.target as Node)) {
+          !dropdownRefs.current[activeDropdown]!.contains(event.target)) {
         setActiveDropdown(null);
       }
     };
@@ -105,14 +119,14 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
   }, [activeDropdown]);
 
   // Toggle dropdown
-  const toggleDropdown = (e:any, index:any) => {
+  const toggleDropdown = (e: any, index: any) => {
     e.stopPropagation();
     e.preventDefault();
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
   // Handle hover for desktop dropdowns
-  const handleMouseEnter = (index:any) => {
+  const handleMouseEnter = (index: any) => {
     if (window.innerWidth >= 1024) { // Only for desktop
       setActiveDropdown(index);
     }
@@ -125,7 +139,7 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
   };
 
   // Check if a nav item is active
-  const isActive = (href:string) => {
+  const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
   };
@@ -142,11 +156,7 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              {/* <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                isScrolled ? 'bg-[#0D0D2B]' : 'bg-white'
-              }`}> */}
-                  <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
-              {/* </div> */}
+              <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
             </Link>
 
             {/* Navigation */}
@@ -158,8 +168,8 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
                   key={item.name} 
                   className="relative group"
                   ref={(el) => {
-  dropdownRefs.current[index] = el;
-}}
+                    dropdownRefs.current[index] = el;
+                  }}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
                 >
@@ -228,28 +238,22 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
       </header>
 
       {/* Mobile Top Bar (visible on small screens) */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#0D0D2B] text-white p-3 shadow-md">
+      <div className={`lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#0D0D2B] text-white p-3 shadow-md transition-transform duration-300 ${
+        showNavbar ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            {/* <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center"> */}
-              <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
-            {/* </div> */}
+            <img src="/images/logo.png" className='w-10 h-10' alt="logo" />
           </Link>
 
-          {/* Right side buttons */}
+          {/* Right side buttons - Only Book Now button */}
           <div className="flex items-center space-x-3">
-            <Link 
-              href="/contact" 
-              className="px-3 py-1 bg-white text-[#0D0D2B] rounded-full text-sm font-medium"
-            >
-              Contact
-            </Link>
             <button className="px-3 py-1 bg-[#4D4DFF] text-white rounded-full text-sm font-medium">
               Book Now
             </button>
             <button 
-              className="p-2 hidden sm:flex"
+              className="p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <FaBars size={20} />
@@ -305,8 +309,10 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
         </div>
       )}
 
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+      {/* Mobile Bottom Navigation - Now with 5 items including Contact */}
+      <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg transition-transform duration-300 ${
+        showNavbar ? 'translate-y-0' : 'translate-y-full'
+      }`}>
         <div className="grid grid-cols-5">
           {/* Gaming Zone */}
           <Link
@@ -354,49 +360,31 @@ const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
             <span className="text-xs mt-1">Celebrate</span>
           </Link>
           
-          {/* Gallery */}
+          {/* Contact - Replacing Gallery */}
           <Link
-            href="/gallery"
+            href="/contact"
             className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/gallery") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+              isActive("/contact") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
             }`}
           >
-            <FaImages size={20} />
-            <span className="text-xs mt-1">Gallery</span>
+            <FaPhone size={20} />
+            <span className="text-xs mt-1">Contact</span>
           </Link>
         </div>
       </div>
 
-      {/* Scroll to Top Button */}
+      {/* Scroll to Top Button - Always visible when scrolled */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed right-4 bottom-16 lg:bottom-4 z-50 w-12 h-12 rounded-full bg-[#0D0D2B] text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+          className="fixed right-4 bottom-20 lg:bottom-4 z-50 w-12 h-12 rounded-full bg-[#0D0D2B] text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
           <FaArrowUp />
         </button>
       )}
 
       {/* Add padding to content for fixed header */}
-      <div className="pt-14 sm:pt-12 lg:pt-20 pb-5 lg:pb-0" />
-
-      <style jsx>{`
-        /* Animation for scroll to top button */
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .fixed button {
-          animation: fadeInUp 0.3s ease-out;
-        }
-      `}</style>
+      <div className="pt-16 sm:pt-16 lg:pt-20 lg:pb-0" />
     </>
   );
 };
