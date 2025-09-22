@@ -2,44 +2,96 @@
 
 /* styles/colors.css */
 :root {
-  /* Brand Colors */
-  --color-purple: #9A3EAD;
-  --color-gold: #C6A85A;
-  --color-flame-orange: #E25B3A;
-  --color-flame-red: #D12B4B;
-
-  /* Neutral Colors */
-  --color-black: #000000;
-  --color-white: #FFFFFF;
-  --color-light-gray: #D9D9D9;
-  --color-beige: #BDAE98;
+  /* Gaming Zone (Dark + Neon) */
+  --gaming-bg-1: #0D0D2B;
+  --gaming-bg-2: #1A1A40;
+  --gaming-text-1: #00FFFF;
+  --gaming-text-2: #80FFF7;
+  --gaming-border-1: #00B8CC;
+  --gaming-border-2: #006C75;
+  
+  /* Food Zone (Dark + Appetite Stimulating) */
+  --food-bg-1: #2C1F3A;
+  --food-bg-2: #3D2C53;
+  --food-text-1: #FFB74D;
+  --food-text-2: #FFE0B2;
+  --food-border-1: #FFA726;
+  --food-border-2: #CC7A00;
+  
+  /* Celebration Zone (Dark + Festive Neon) */
+  --celebration-bg-1: #2B1A2D;
+  --celebration-bg-2: #3B2C44;
+  --celebration-text-1: #FF6FF0;
+  --celebration-text-2: #FFB3F5;
+  --celebration-border-1: #D600B0;
+  --celebration-border-2: #8B0075;
+  
+  /* Gallery Zone (Dark + Fresh Neon) */
+  --gallery-bg-1: #0D2B1A;
+  --gallery-bg-2: #1A402B;
+  --gallery-text-1: #00FF85;
+  --gallery-text-2: #80FFB3;
+  --gallery-border-1: #00C853;
+  --gallery-border-2: #006C35;
 }
 
-/* Example utility classes (optional) */
-.bg-purple { background-color: var(--color-purple); }
-.bg-gold { background-color: var(--color-gold); }
-.bg-flame-orange { background-color: var(--color-flame-orange); }
-.bg-flame-red { background-color: var(--color-flame-red); }
-.bg-black { background-color: var(--color-black); }
-.bg-white { background-color: var(--color-white); }
-.bg-beige { background-color: var(--color-beige); }
+/* Example usage classes for each zone */
+.gaming-zone {
+  background: linear-gradient(var(--gaming-bg-1), var(--gaming-bg-2));
+  color: var(--gaming-text-1);
+  border: 2px solid var(--gaming-border-1);
+}
 
-.text-purple { color: var(--color-purple); }
-.text-gold { color: var(--color-gold); }
-.text-flame-orange { color: var(--color-flame-orange); }
-.text-flame-red { color: var(--color-flame-red); }
-.text-black { color: var(--color-black); }
-.text-white { color: var(--color-white); }
-.text-beige { color: var(--color-beige); }
+.food-zone {
+  background: linear-gradient(var(--food-bg-1), var(--food-bg-2));
+  color: var(--food-text-1);
+  border: 2px solid var(--food-border-1);
+}
 
-.border-purple { border-color: var(--color-purple); }
-.border-gold { border-color: var(--color-gold); }
-.border-flame-orange { border-color: var(--color-flame-orange); }
-.border-flame-red { border-color: var(--color-flame-red); }
-.border-black { border-color: var(--color-black); }
-.border-white { border-color: var(--color-white); }
-.border-beige { border-color: var(--color-beige); }
+.celebration-zone {
+  background: linear-gradient(var(--celebration-bg-1), var(--celebration-bg-2));
+  color: var(--celebration-text-1);
+  border: 2px solid var(--celebration-border-1);
+}
 
+.gallery-zone {
+  background: linear-gradient(var(--gallery-bg-1), var(--gallery-bg-2));
+  color: var(--gallery-text-1);
+  border: 2px solid var(--gallery-border-1);
+}
+
+/* Additional utility classes for more specific styling */
+.gaming-text-secondary {
+  color: var(--gaming-text-2);
+}
+
+.food-text-secondary {
+  color: var(--food-text-2);
+}
+
+.celebration-text-secondary {
+  color: var(--celebration-text-2);
+}
+
+.gallery-text-secondary {
+  color: var(--gallery-text-2);
+}
+
+.gaming-border-secondary {
+  border-color: var(--gaming-border-2);
+}
+
+.food-border-secondary {
+  border-color: var(--food-border-2);
+}
+
+.celebration-border-secondary {
+  border-color: var(--celebration-border-2);
+}
+
+.gallery-border-secondary {
+  border-color: var(--gallery-border-2);
+}
 
 @media (prefers-color-scheme: dark) {
   :root {

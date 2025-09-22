@@ -10,7 +10,7 @@ const GuestLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Top Section */}
       <Header />
       {/* Main Page Content */}
-      <main className="flex-grow mx-auto w-full my-10">
+      <main className="flex-grow mx-auto w-full">
         {children}
       </main>
 

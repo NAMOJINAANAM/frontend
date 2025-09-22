@@ -1,20 +1,20 @@
 "use client";
 
-import  Button from "@/components/ui/button";
-
+import Button from "@/components/ui/button";
 import { 
   HiMapPin, 
   HiPhone, 
   HiEnvelope, 
   HiArrowRight
 } from "react-icons/hi2";
-import { FaInstagram,FaFacebook  } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaGamepad, FaUtensils, FaGlassCheers } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+
 const Footer = () => {
   const quickLinks = [
-    { name: "Gaming Zone", href: "#gaming" },
-    { name: "Food Menu", href: "#food" },
-    { name: "Celebrations", href: "#celebrations" },
+    { name: "Gaming Zone", href: "#gaming", icon: FaGamepad },
+    { name: "Food Zone", href: "#food", icon: FaUtensils },
+    { name: "Celebration Zone", href: "#celebrations", icon: FaGlassCheers },
     { name: "Book Now", href: "#book" },
   ];
 
@@ -33,53 +33,48 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[var(--color-white)] dark:bg-[var(--color-black)] border-t border-[var(--color-light-gray)]">
+    <footer className="bg-gradient-to-b from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)] border-t-2 border-[var(--gaming-border-1)]">
+      {/* Animated Top Border */}
+      <div className="h-1 bg-gradient-to-r from-[var(--gaming-border-1)] via-[var(--food-border-1)] to-[var(--celebration-border-1)] animate-pulse"></div>
+      
       <div className="container mx-auto px-4">
         {/* Main Footer Content */}
         <div className="py-16 grid md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand & Description */}
           <div className="lg:col-span-2">
-            <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center w-10 h-10 rounded-md bg-gradient-to-r from-[var(--color-purple)] to-[var(--color-flame-red)] mr-3">
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-white"
-                >
-                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M9 9H9.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M15 9H15.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
+            <div className="flex items-center mb-6">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-[var(--gaming-text-1)] via-[var(--food-text-1)] to-[var(--celebration-text-1)] p-1 mr-4">
+                <div className="w-full h-full bg-[var(--gaming-bg-1)] rounded-lg flex items-center justify-center">
+                  <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[var(--gaming-text-1)] via-[var(--food-text-1)] to-[var(--celebration-text-1)] text-lg">
+                    FZ
+                  </span>
+                </div>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-[var(--color-purple)] to-[var(--color-flame-red)] bg-clip-text text-transparent">
-                Namojinaanam
+              <span className="text-2xl font-bold bg-gradient-to-r from-[var(--gaming-text-1)] via-[var(--food-text-1)] to-[var(--celebration-text-1)] bg-clip-text text-transparent">
+                FunZone
               </span>
             </div>
-            <p className="text-[var(--color-black)] dark:text-[var(--color-white)] mb-6 max-w-md text-sm leading-relaxed">
+            <p className="text-[var(--gaming-text-2)] mb-6 max-w-md text-sm leading-relaxed">
               The ultimate entertainment destination where friends and families come together 
               to play, feast, and celebrate life's special moments.
             </p>
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)]">
-                <HiMapPin className="h-4 w-4 text-[var(--color-purple)]" />
+              <div className="flex items-center gap-3 text-sm text-[var(--gaming-text-2)]">
+                <HiMapPin className="h-5 w-5 text-[var(--gaming-text-1)]" />
                 <span>123 Entertainment Blvd, Fun City, FC 12345</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)]">
-                <HiPhone className="h-4 w-4 text-[var(--color-purple)]" />
-                <a href="tel:+15551234567" className="hover:text-[var(--color-purple)] transition-colors">
+              <div className="flex items-center gap-3 text-sm text-[var(--gaming-text-2)]">
+                <HiPhone className="h-5 w-5 text-[var(--gaming-text-1)]" />
+                <a href="tel:+15551234567" className="hover:text-[var(--gaming-text-1)] transition-colors">
                   (555) 123-4567
                 </a>
               </div>
-              <div className="flex items-center gap-3 text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)]">
-                <HiEnvelope className="h-4 w-4 text-[var(--color-purple)]" />
-                <a href="mailto:info@Namojinaanam.com" className="hover:text-[var(--color-purple)] transition-colors">
-                  info@Namojinaanam.com
+              <div className="flex items-center gap-3 text-sm text-[var(--gaming-text-2)]">
+                <HiEnvelope className="h-5 w-5 text-[var(--gaming-text-1)]" />
+                <a href="mailto:info@funzone.com" className="hover:text-[var(--gaming-text-1)] transition-colors">
+                  info@funzone.com
                 </a>
               </div>
             </div>
@@ -87,33 +82,43 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-[var(--color-black)] dark:text-[var(--color-white)] mb-4 text-lg">Quick Links</h3>
+            <h3 className="font-semibold text-[var(--gaming-text-1)] mb-4 text-lg flex items-center">
+              <div className="w-3 h-3 bg-[var(--gaming-text-1)] rounded-full mr-2 animate-pulse"></div>
+              Quick Links
+            </h3>
             <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] hover:text-[var(--color-purple)] transition-colors duration-200 flex items-center group"
-                  >
-                    <HiArrowRight className="h-3 w-3 mr-2 text-[var(--color-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              {quickLinks.map((link) => {
+                const IconComponent = link.icon;
+                return (
+                  <li key={link.name}>
+                    <a 
+                      href={link.href}
+                      className="text-sm text-[var(--gaming-text-2)] hover:text-[var(--gaming-text-1)] transition-colors duration-200 flex items-center group"
+                    >
+                      {IconComponent && <IconComponent className="h-4 w-4 mr-2 text-[var(--gaming-text-1)]" />}
+                      <HiArrowRight className="h-3 w-3 mr-2 text-[var(--gaming-text-1)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                      {link.name}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Gaming */}
           <div>
-            <h3 className="font-semibold text-[var(--color-black)] dark:text-[var(--color-white)] mb-4 text-lg">Gaming</h3>
+            <h3 className="font-semibold text-[var(--gaming-text-1)] mb-4 text-lg flex items-center">
+              <div className="w-3 h-3 bg-[var(--gaming-text-1)] rounded-full mr-2"></div>
+              Gaming
+            </h3>
             <ul className="space-y-3">
               {gameLinks.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] hover:text-[var(--color-purple)] transition-colors duration-200 flex items-center group"
+                    className="text-sm text-[var(--gaming-text-2)] hover:text-[var(--gaming-text-1)] transition-colors duration-200 flex items-center group"
                   >
-                    <HiArrowRight className="h-3 w-3 mr-2 text-[var(--color-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="w-2 h-2 bg-[var(--gaming-text-1)] rounded-full mr-3 group-hover:animate-pulse"></div>
                     {link.name}
                   </a>
                 </li>
@@ -123,15 +128,18 @@ const Footer = () => {
 
           {/* Events */}
           <div>
-            <h3 className="font-semibold text-[var(--color-black)] dark:text-[var(--color-white)] mb-4 text-lg">Events</h3>
+            <h3 className="font-semibold text-[var(--celebration-text-1)] mb-4 text-lg flex items-center">
+              <div className="w-3 h-3 bg-[var(--celebration-text-1)] rounded-full mr-2"></div>
+              Events
+            </h3>
             <ul className="space-y-3">
               {eventLinks.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] hover:text-[var(--color-purple)] transition-colors duration-200 flex items-center group"
+                    className="text-sm text-[var(--gaming-text-2)] hover:text-[var(--celebration-text-1)] transition-colors duration-200 flex items-center group"
                   >
-                    <HiArrowRight className="h-3 w-3 mr-2 text-[var(--color-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="w-2 h-2 bg-[var(--celebration-text-1)] rounded-full mr-3 group-hover:animate-pulse"></div>
                     {link.name}
                   </a>
                 </li>
@@ -140,47 +148,22 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        {/* <div className="py-8 border-t border-[var(--color-light-gray)]">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="font-semibold text-[var(--color-black)] dark:text-[var(--color-white)] mb-2 text-lg">Stay in the Game</h3>
-              <p className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] max-w-md">
-                Get exclusive offers and event updates delivered to your inbox
-              </p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <Input 
-                type="email" 
-                placeholder="Enter your email"
-                className="flex-1 min-w-[250px] border-[var(--color-light-gray)] focus:border-[var(--color-purple)]"
-              />
-              <Button 
-                className="bg-gradient-to-r from-[var(--color-flame-orange)] to-[var(--color-flame-red)] text-white hover:shadow-lg transition-all duration-300 hover:scale-105 whitespace-nowrap"
-              >
-                Join Now
-              </Button>
-            </div>
-          </div>
-        </div> */}
-
         {/* Bottom Footer */}
-        <div className="py-6 border-t border-[var(--color-light-gray)]">
+        <div className="py-6 border-t-2 border-[var(--gaming-border-2)]">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Copyright */}
-            <div className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] order-2 md:order-1">
-              © 2024 Namojinaanam Entertainment. All rights reserved.
+            <div className="text-sm text-[var(--gaming-text-2)] order-2 md:order-1">
+              © 2024 FunZone Entertainment. All rights reserved.
             </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-4 order-1 md:order-2">
-              <span className="text-sm text-[var(--color-black)] dark:text-[var(--color-light-gray)] hidden sm:block">Follow us:</span>
+              <span className="text-sm text-[var(--gaming-text-2)] hidden sm:block">Follow us:</span>
               <div className="flex gap-2">
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="hover:bg-[var(--color-purple)] hover:text-white transition-colors duration-300 rounded-full h-10 w-10"
+                  className="hover:bg-[var(--gaming-text-1)] hover:text-[var(--gaming-bg-1)] transition-colors duration-300 rounded-full h-10 w-10 border border-[var(--gaming-border-1)]"
                   aria-label="Instagram"
                 >
                   <FaInstagram className="h-5 w-5" />
@@ -188,18 +171,18 @@ const Footer = () => {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="hover:bg-[var(--color-purple)] hover:text-white transition-colors duration-300 rounded-full h-10 w-10"
+                  className="hover:bg-[var(--gaming-text-1)] hover:text-[var(--gaming-bg-1)] transition-colors duration-300 rounded-full h-10 w-10 border border-[var(--gaming-border-1)]"
                   aria-label="Facebook"
                 >
-                  <FaFacebook  className="h-5 w-5" />
+                  <FaFacebook className="h-5 w-5" />
                 </Button>
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="hover:bg-[var(--color-purple)] hover:text-white transition-colors duration-300 rounded-full h-10 w-10"
+                  className="hover:bg-[var(--gaming-text-1)] hover:text-[var(--gaming-bg-1)] transition-colors duration-300 rounded-full h-10 w-10 border border-[var(--gaming-border-1)]"
                   aria-label="Twitter"
                 >
-                  <FaXTwitter  className="h-5 w-5" />
+                  <FaXTwitter className="h-5 w-5" />
                 </Button>
               </div>
             </div>
@@ -208,13 +191,13 @@ const Footer = () => {
             <div className="flex gap-4 text-sm order-3">
               <a 
                 href="#privacy" 
-                className="text-[var(--color-black)] dark:text-[var(--color-light-gray)] hover:text-[var(--color-purple)] transition-colors duration-200"
+                className="text-[var(--gaming-text-2)] hover:text-[var(--gaming-text-1)] transition-colors duration-200"
               >
                 Privacy Policy
               </a>
               <a 
                 href="#terms" 
-                className="text-[var(--color-black)] dark:text-[var(--color-light-gray)] hover:text-[var(--color-purple)] transition-colors duration-200"
+                className="text-[var(--gaming-text-2)] hover:text-[var(--gaming-text-1)] transition-colors duration-200"
               >
                 Terms of Service
               </a>

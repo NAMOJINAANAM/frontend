@@ -91,39 +91,89 @@ const FoodZone = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + foodCarouselItems.length) % foodCarouselItems.length);
   };
+type FloatingIconProps = {
+  icon: any; // this ensures it’s a valid react-icons component
+  style?: any; // inline styles
+};
+  // Floating Food Icons component
+  const FloatingIcon:React.FC<FloatingIconProps> = ({ icon: Icon, style }) => (
+    <div 
+      className="absolute text-[var(--food-bg-1)]/20 text-4xl md:text-6xl animate-float"
+      style={style}
+    >
+      <Icon />
+    </div>
+  );
 
   return (
-    <section id="food" className="py-10 relative overflow-hidden bg-gradient-to-b from-[var(--color-beige)]/10 to-[var(--color-white)] dark:from-[var(--color-black)] dark:to-[var(--color-black)]">
+    <section id="food" className="py-2 pt-10 relative overflow-hidden bg-white">
       
       {/* Floating Food Icons */}
-      <div className="absolute top-10 left-5 text-[var(--color-flame-orange)]/20 text-4xl animate-float">
-        <FaPizzaSlice />
-      </div>
-      <div className="absolute top-1/4 right-8 text-[var(--color-gold)]/20 text-5xl animate-float" style={{animationDelay: '2s'}}>
-        <FaIceCream />
-      </div>
-      <div className="absolute bottom-1/3 left-10 text-[var(--color-purple)]/20 text-6xl animate-float" style={{animationDelay: '3s'}}>
-        <FaCoffee />
-      </div>
-      <div className="absolute bottom-20 right-12 text-[var(--color-flame-red)]/20 text-4xl animate-float" style={{animationDelay: '1.5s'}}>
-        <FaHamburger />
+      <FloatingIcon icon={FaPizzaSlice} style={{ top: '10%', left: '5%', animationDelay: '0s' }} />
+      <FloatingIcon icon={FaIceCream} style={{ top: '20%', right: '5%', animationDelay: '2s' }} />
+      <FloatingIcon icon={FaCoffee} style={{ bottom: '15%', left: '8%', animationDelay: '3s' }} />
+      <FloatingIcon icon={FaHamburger} style={{ bottom: '25%', right: '10%', animationDelay: '1.5s' }} />
+      
+      {/* Animated grid pattern */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute inset-0 bg-grid-pattern animate-grid-move"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <h2 className="text-4xl md:text-6xl font-bold text-[var(--color-black)] dark:text-[var(--color-white)] mb-4">
-              <span className="text-[var(--color-flame-orange)]">Food</span> Zone
-            </h2>
-            <p className="text-xl text-[var(--color-black)]/80 dark:text-[var(--color-white)]/80 max-w-2xl mx-auto">
+        <div className="text-center mb-16 relative">
+          {/* Animated background elements */}
+          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[var(--food-bg-1)]/10 rounded-full animate-pulse-slow"></div>
+          <div className="absolute -bottom-2 -right-4 w-16 h-16 bg-[var(--food-bg-2)]/10 rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+          
+          <div className={`relative transform transition-all duration-1000 ease-out ${
+            isVisible 
+              ? 'translate-y-0 opacity-100' 
+              : 'translate-y-10 opacity-0'
+          }`}>
+            {/* Decorative elements */}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[var(--food-bg-1)] to-transparent"></div>
+            
+            <div className="relative inline-block mb-4">
+              <h2 className="text-xl md:text-3xl lg:text-6xl font-bold mb-4 relative">
+                {/* Main text with gradient */}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--food-bg-1)] to-[var(--food-bg-2)]">
+                  Food Zone
+                </span>
+                
+                {/* Neon effect overlay */}
+                {/* <span className="absolute top-0 left-0 text-transparent bg-clip-text bg-gradient-to-r from-[var(--food-bg-1)] to-[var(--food-bg-2)] opacity-70 blur-sm">
+                  Food Zone
+                </span> */}
+              </h2>
+              
+              {/* Animated underline */}
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[var(--food-bg-1)] to-[var(--food-bg-2)] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center"></div>
+            </div>
+
+            <p className="text-md md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed relative">
+              <span className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--food-bg-1)]/20 rounded-full animate-ping-slow"></span>
               Savor every moment with our delicious menu
+              <span className="absolute -right-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--food-bg-2)]/20 rounded-full animate-ping-slow" style={{animationDelay: '1s'}}></span>
             </p>
+
+            {/* Animated food icons */}
+            <div className="flex justify-center mt-4 space-x-4">
+              <div className="w-8 h-8 bg-[var(--food-bg-1)]/20 rounded-full flex items-center justify-center animate-bounce-slow">
+                <span className="text-[var(--food-bg-1)] text-lg">🍔</span>
+              </div>
+              <div className="w-8 h-8 bg-[var(--food-bg-2)]/20 rounded-full flex items-center justify-center animate-bounce-slow" style={{animationDelay: '0.2s'}}>
+                <span className="text-[var(--food-bg-1)] text-lg">🍕</span>
+              </div>
+              <div className="w-8 h-8 bg-[var(--food-bg-1)]/20 rounded-full flex items-center justify-center animate-bounce-slow" style={{animationDelay: '0.4s'}}>
+                <span className="text-[var(--food-bg-1)] text-lg">🍦</span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Food Carousel with Title and Description */}
-        <div className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden mb-16 group">
+        <div className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden mb-16 group border border-gray-200 shadow-lg">
           {foodCarouselItems.map((item, index) => (
             <div
               key={index}
@@ -136,11 +186,11 @@ const FoodZone = () => {
                 alt={item.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-black)]/80 via-[var(--color-black)]/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent"></div>
               
               {/* Text Overlay - Bottom Left */}
-              <div className="absolute bottom-8 left-8 max-w-md text-[var(--color-white)]">
-                <div className="bg-[var(--color-flame-red)]/90 backdrop-blur-sm px-4 py-2 rounded-lg inline-block mb-3">
+              <div className="absolute bottom-8 left-8 max-w-md text-white">
+                <div className="bg-[var(--food-bg-1)]/90 backdrop-blur-sm px-4 py-2 rounded-lg inline-block mb-3 border border-white/30">
                   <span className="font-bold text-lg">{item.discount}</span>
                 </div>
                 <h3 className="text-3xl md:text-4xl font-bold mb-2 drop-shadow-md">{item.title}</h3>
@@ -152,13 +202,13 @@ const FoodZone = () => {
           {/* Carousel Controls */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-white)]/80 text-[var(--color-black)] p-3 rounded-full hover:bg-[var(--color-white)] transition-all duration-300 opacity-0 group-hover:opacity-100"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-[var(--food-bg-1)] p-3 rounded-full hover:bg-white transition-all duration-300 opacity-0 group-hover:opacity-100 border border-gray-200 shadow-lg"
           >
             <FaChevronLeft />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-white)]/80 text-[var(--color-black)] p-3 rounded-full hover:bg-[var(--color-white)] transition-all duration-300 opacity-0 group-hover:opacity-100"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-[var(--food-bg-1)] p-3 rounded-full hover:bg-white transition-all duration-300 opacity-0 group-hover:opacity-100 border border-gray-200 shadow-lg"
           >
             <FaChevronRight />
           </button>
@@ -169,10 +219,10 @@ const FoodZone = () => {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3 rounded-full transition-all duration-300 border border-white ${
                   index === currentSlide
-                    ? 'bg-[var(--color-flame-orange)] w-8'
-                    : 'bg-[var(--color-white)]/50'
+                    ? 'bg-white w-8'
+                    : 'bg-white/50'
                 }`}
               />
             ))}
@@ -182,10 +232,10 @@ const FoodZone = () => {
         {/* Featured Dishes from Different Categories */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-[var(--color-black)] dark:text-[var(--color-white)] mb-2">
+            <h3 className="text-3xl font-bold text-[var(--food-bg-1)] mb-2">
               Featured Dishes
             </h3>
-            <p className="text-[var(--color-black)]/80 dark:text-[var(--color-white)]/80">
+            <p className="text-gray-600">
               Taste our most popular creations from each category
             </p>
           </div>
@@ -194,8 +244,11 @@ const FoodZone = () => {
             {featuredDishes.map((dish, index) => (
               <div
                 key={index}
-                className="group overflow-hidden rounded-3xl bg-[var(--color-white)] dark:bg-[var(--color-black)] border-2 border-[var(--color-light-gray)] dark:border-[var(--color-light-gray)] shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                className="group overflow-hidden rounded-3xl bg-white border border-gray-200 shadow-lg hover:shadow-[0_0_25px_var(--food-bg-1)]/30 transition-all duration-500 hover:-translate-y-2 relative"
               >
+                {/* Animated glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--food-bg-1)]/0 via-[var(--food-bg-1)]/5 to-[var(--food-bg-1)]/0 animate-pulse-glow rounded-3xl"></div>
+                
                 {/* Dish Image */}
                 <div className="h-48 relative overflow-hidden">
                   <img
@@ -203,11 +256,11 @@ const FoodZone = () => {
                     alt={dish.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute top-3 left-3 bg-[var(--color-flame-orange)] text-[var(--color-white)] px-2 py-1 rounded text-xs font-bold">
+                  <div className="absolute top-3 left-3 bg-[var(--food-bg-1)] text-white px-2 py-1 rounded text-xs font-bold border border-white/30">
                     {dish.category}
                   </div>
                   {dish.originalPrice && (
-                    <div className="absolute top-3 right-3 bg-[var(--color-purple)] text-[var(--color-white)] px-2 py-1 rounded text-xs font-bold">
+                    <div className="absolute top-3 right-3 bg-white text-[var(--food-bg-1)] px-2 py-1 rounded text-xs font-bold border border-gray-200">
                       SAVE ${parseInt(dish.originalPrice.replace('$', '')) - parseInt(dish.price.replace('$', ''))}
                     </div>
                   )}
@@ -219,30 +272,30 @@ const FoodZone = () => {
                     {[...Array(5)].map((_, i) => (
                       <FaStar
                         key={i}
-                        className={`text-sm ${i < Math.floor(dish.rating) ? 'text-[var(--color-gold)]' : 'text-[var(--color-light-gray)]'}`}
+                        className={`text-sm ${i < Math.floor(dish.rating) ? 'text-[var(--food-bg-1)]' : 'text-gray-300'}`}
                       />
                     ))}
-                    <span className="text-sm text-[var(--color-black)]/60 dark:text-[var(--color-white)]/60 ml-1">
+                    <span className="text-sm text-gray-600 ml-1">
                       {dish.rating}
                     </span>
                   </div>
 
-                  <h4 className="text-lg font-bold text-[var(--color-black)] dark:text-[var(--color-white)] mb-2">
+                  <h4 className="text-lg font-bold text-gray-800 mb-2">
                     {dish.name}
                   </h4>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-[var(--color-flame-orange)] font-bold text-lg">
+                      <span className="text-[var(--food-bg-1)] font-bold text-lg">
                         {dish.price}
                       </span>
                       {dish.originalPrice && (
-                        <span className="text-[var(--color-black)]/60 dark:text-[var(--color-white)]/60 line-through text-sm">
+                        <span className="text-gray-400 line-through text-sm">
                           {dish.originalPrice}
                         </span>
                       )}
                     </div>
-                    <button className="bg-[var(--color-purple)] text-[var(--color-white)] p-2 rounded-lg hover:bg-[var(--color-purple)]/90 transition-colors">
+                    <button className="bg-[var(--food-bg-1)] text-white p-2 rounded-lg hover:bg-[var(--food-bg-2)] transition-colors border border-[var(--food-bg-1)]/30">
                       <FaUtensils className="text-sm" />
                     </button>
                   </div>
@@ -253,10 +306,10 @@ const FoodZone = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
+        <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <Button 
             size="lg" 
-            className="bg-gradient-to-r from-[var(--color-flame-orange)] to-[var(--color-flame-red)] text-[var(--color-white)] hover:shadow-2xl hover:scale-110 transition-all duration-300 px-10 py-5 rounded-2xl font-bold text-lg group"
+            className="bg-gradient-to-r from-[var(--food-bg-1)] to-[var(--food-bg-2)] text-white hover:text-[var(--food-bg-1)] hover:border-2 hover:border-[var(--food-bg-1)] hover:shadow-2xl hover:scale-110 transition-all duration-300 px-10 py-5 rounded-2xl font-bold text-lg group animate-pulse hover:animate-none hover:shadow-[0_0_25px_var(--food-bg-1)]/40"
             href="/food"
           >
             <FaUtensils className="mr-3 text-xl group-hover:rotate-12 transition-transform" />
@@ -264,6 +317,46 @@ const FoodZone = () => {
           </Button>
         </div>
       </div>
+
+      {/* Add custom animations to global CSS */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes gridMove {
+          0% { background-position: 0 0; }
+          100% { background-position: 50px 50px; }
+        }
+        @keyframes pulseGlow {
+          0%, 100% { opacity: 0.05; }
+          50% { opacity: 0.1; }
+        }
+        @keyframes bounceSlow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes pingSlow {
+          0% { transform: scale(1); opacity: 1; }
+          75%, 100% { transform: scale(2); opacity: 0; }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-grid-move { animation: gridMove 20s linear infinite; }
+        .animate-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+        .animate-bounce-slow { animation: bounceSlow 2s ease-in-out infinite; }
+        .animate-ping-slow { animation: pingSlow 2s cubic-bezier(0,0,0.2,1) infinite; }
+        .bg-grid-pattern {
+          background-image: linear-gradient(to right, var(--food-bg-1) 1px, transparent 1px),
+                            linear-gradient(to bottom, var(--food-bg-1) 1px, transparent 1px);
+          background-size: 50px 50px;
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.1; transform: scale(1); }
+          50% { opacity: 0.3; transform: scale(1.1); }
+        }
+        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+      `}</style>
     </section>
   );
 };

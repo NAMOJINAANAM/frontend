@@ -1,253 +1,402 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Button from "@/components/ui/button";
-import { HiMenu, HiX, HiChevronDown } from "react-icons/hi";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { 
+  FaHome, 
+  FaGamepad, 
+  FaUtensils, 
+  FaGlassCheers, 
+  FaImages, 
+  FaPhone, 
+  FaChevronDown,
+  FaChevronUp,
+  FaArrowUp,
+  FaBars
+} from 'react-icons/fa';
+
+const navigation = [
+  { 
+    name: "Home", 
+    href: "/",
+    icon: FaHome,
+    color: "home"
+  },
+  { 
+    name: "Gaming", 
+    href: "/gaming",
+    icon: FaGamepad,
+    color: "gaming",
+    dropdown: [
+      { name: "Arcade Games", href: "/gaming/arcade" },
+      { name: "Bowling Alley", href: "/gaming/bowling" },
+      { name: "VR Games", href: "/gaming/vr" },
+      { name: "All Games", href: "/gaming" },
+    ]
+  },
+  { 
+    name: "Food", 
+    href: "/food",
+    icon: FaUtensils,
+    color: "food"
+  },
+  { 
+    name: "Celebration", 
+    href: "/celebrations",
+    icon: FaGlassCheers,
+    color: "celebration",
+    dropdown: [
+      { name: "Birthday Parties", href: "/celebrations/birthdays" },
+      { name: "Corporate Events", href: "/celebrations/corporate" },
+      { name: "Custom Events", href: "/celebrations/custom" },
+    ]
+  },
+  { 
+    name: "Gallery", 
+    href: "/gallery",
+    icon: FaImages,
+    color: "gallery"
+  },
+  { 
+    name: "Contact", 
+    href: "/contact",
+    icon: FaPhone,
+    color: "contact"
+  },
+];
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const pathname = usePathname();
+const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Handle scroll events
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+      setShowScrollTop(window.scrollY > 300);
     };
-    
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkIsMobile);
-    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigation = [
-    { name: "Home", href: "/" },
-    { 
-      name: "Gaming Zone", 
-      href: "/gaming",
-      dropdown: [
-          { name: "Arcade Games", href: "/gaming/arcade" },
-          { name: "Bowling Alley", href: "/gaming/bowling" },
-        { name: "VR Games", href: "/gaming/vr" },
-        { name: "All Games", href: "/gaming" },
-      ]
-    },
-    { 
-      name: "Food", 
-      href: "/food",
-    },
-    { 
-      name: "Celebrations", 
-      href: "/celebrations",
-      dropdown: [
-        { name: "Birthday Parties", href: "/celebrations/birthdays" },
-        { name: "Corporate Events", href: "/celebrations/corporate" },
-        { name: "Custom Events", href: "(/celebrations/custom" },
-      ]
-    },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Contact", href: "/contact" },
-  ];
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  // Custom logo component
-  const Logo = () => (
-    <div className="flex items-center">
-      <div className="flex items-center justify-center w-16 h-16 rounded-md mr-2">
-        <img src="/images/logo.png" alt="logo" className="m-5"/>
-      </div>
-    </div>
-  );
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (activeDropdown !== null && 
+          dropdownRefs.current[activeDropdown] && 
+          !dropdownRefs.current[activeDropdown]!.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    };
 
-  const toggleDropdown = (name: string) => {
-    if (activeDropdown === name) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(name);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [activeDropdown]);
+
+  // Toggle dropdown
+  const toggleDropdown = (e:any, index:any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
+
+  // Handle hover for desktop dropdowns
+  const handleMouseEnter = (index:any) => {
+    if (window.innerWidth >= 1024) { // Only for desktop
+      setActiveDropdown(index);
     }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth >= 1024) { // Only for desktop
+      setActiveDropdown(null);
+    }
+  };
+
+  // Check if a nav item is active
+  const isActive = (href:string) => {
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
   };
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-[var(--color-light-gray)] shadow-md">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
+      {/* Desktop Header */}
+      <header className={`hidden lg:block fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white backdrop-blur-md shadow-lg py-2' 
+          : 'bg-[#0D0D2B] py-4'
+      }`}>
+        <div className="container-fluid mx-auto px-4">
+          <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/">
-              <Logo />
+            <Link href="/" className="flex items-center space-x-2">
+              {/* <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                isScrolled ? 'bg-[#0D0D2B]' : 'bg-white'
+              }`}> */}
+                  <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
+              {/* </div> */}
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-6 lg:space-x-8">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href;
-                const hasDropdown = item.dropdown && item.dropdown.length > 0;
-                
-                return (
-                  <div key={item.name} className="relative group">
-                    <div
-                      className={`flex items-center transition-all duration-300 py-2 px-1 cursor-pointer ${
-                        isActive 
-                          ? "text-[var(--color-purple)] font-semibold" 
-                          : "text-[var(--color-black)] dark:text-[var(--color-white)] hover:text-[var(--color-purple)]"
-                      }`}
-                      onClick={() => hasDropdown ? toggleDropdown(item.name) : null}
-                    >
-                      {hasDropdown ? (
-                        <>
-                          <span>{item.name}</span>
-                          <HiChevronDown className={`ml-1 transition-transform ${activeDropdown === item.name ? 'rotate-180' : ''}`} />
-                        </>
-                      ) : (
-                        <Link href={item.href}>
-                          {item.name}
-                        </Link>
-                      )}
-                      
-                      {(isActive || activeDropdown === item.name) && (
-                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--color-purple)]"></span>
-                      )}
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--color-purple)] transition-all duration-300 group-hover:w-full"></span>
-                    </div>
-                    
-                    {hasDropdown && activeDropdown === item.name && (
-                      <div className="absolute top-full left-0 mt-1 w-48 bg-black dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-[var(--color-white)]">
-                        {item.dropdown.map((dropdownItem) => (
-                          <Link
-                            key={dropdownItem.name}
-                            href={dropdownItem.href}
-                            className="block px-4 py-2 text-sm text-[var(--color-black)] dark:text-[var(--color-white)] hover:bg-[var(--color-light-gray)] hover:text-[var(--color-purple)]"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            {dropdownItem.name}
-                          </Link>
-                        ))}
-                      </div>
+            {/* Navigation */}
+            <nav className="flex items-center space-x-1">
+              {navigation
+              .filter(item=>item.name!="Home")
+              .map((item, index) => (
+                <div 
+                  key={item.name} 
+                  className="relative group"
+                  ref={(el) => {
+  dropdownRefs.current[index] = el;
+}}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Link
+                    href={item.href}
+                    className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 ${
+                      isActive(item.href)
+                        ? 'bg-[#0D0D2B] text-white shadow-lg'
+                        : isScrolled
+                        ? 'text-[#0D0D2B] hover:bg-gray-100'
+                        : 'text-white/90 hover:bg-white/10'
+                    }`}
+                    onClick={(e) => item.dropdown && toggleDropdown(e, index)}
+                  >
+                    <item.icon className="mr-2" />
+                    {item.name}
+                    {item.dropdown && (
+                      <span className="ml-2">
+                        {activeDropdown === index ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
+                      </span>
                     )}
-                  </div>
-                );
-              })}
+                  </Link>
+
+                  {/* Dropdown Menu */}
+                  {item.dropdown && (
+                    <div 
+                      className={`absolute top-full left-0 mt-2 w-56 rounded-xl shadow-lg overflow-hidden transition-all duration-300 origin-top ${
+                        activeDropdown === index
+                          ? 'opacity-100 scale-100'
+                          : 'opacity-0 scale-95 pointer-events-none'
+                      } ${
+                        isScrolled 
+                          ? 'bg-white border border-gray-200' 
+                          : 'bg-[#0D0D2B] border border-gray-800'
+                      }`}
+                    >
+                      {item.dropdown.map((dropdownItem) => (
+                        <Link
+                          key={dropdownItem.name}
+                          href={dropdownItem.href}
+                          className={`block px-4 py-3 transition-all duration-200 ${
+                            isScrolled
+                              ? 'text-[#0D0D2B] hover:bg-gray-100'
+                              : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                          } ${isActive(dropdownItem.href) ? (isScrolled ? 'bg-gray-100' : 'bg-white/10 text-white') : ''}`}
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </nav>
 
             {/* CTA Button */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <Button 
-                variant="default" 
-                size="lg"
-                className="bg-gradient-to-r from-[var(--color-flame-orange)] to-[var(--color-flame-red)] text-white hover:shadow-lg transition-all duration-300 hover:scale-105 px-6 py-2 rounded-md font-semibold"
-              >
-                Book Now
-              </Button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden p-2 rounded-md hover:bg-[var(--color-light-gray)] transition-colors duration-200"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <HiX className="h-6 w-6 text-[var(--color-black)] dark:text-[var(--color-white)]" />
-              ) : (
-                <HiMenu className="h-6 w-6 text-[var(--color-black)] dark:text-[var(--color-white)]" />
-              )}
+            <button className={`px-6 py-2 rounded-full font-semibold transition-all ${
+              isScrolled
+                ? 'bg-[#0D0D2B] text-white hover:shadow-lg'
+                : 'bg-white text-[#0D0D2B] hover:bg-gray-100'
+            }`}>
+              Book Now
             </button>
           </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="lg:hidden border-t border-[var(--color-light-gray)] bg-white">
-  <div className="px-2 pt-2 pb-4 space-y-1">
-    {navigation.map((item) => {
-      const isActive = pathname === item.href;
-      const hasDropdown = item.dropdown && item.dropdown.length > 0;
-      
-      return (
-        <div key={item.name}>
-          {hasDropdown ? (
-            <>
-              <div
-                className={`flex items-center justify-between px-4 py-3 text-base font-medium rounded-md transition-all duration-150 ${
-                  isActive 
-                    ? "text-[var(--color-purple)] bg-gray-100 font-semibold" 
-                    : "text-black hover:text-[var(--color-purple)] hover:bg-gray-100"
-                }`}
-                onClick={() => toggleDropdown(item.name)}
-              >
-                <span>{item.name}</span>
-                <HiChevronDown className={`transition-transform ${activeDropdown === item.name ? 'rotate-180' : ''}`} />
-              </div>
-              
-              {activeDropdown === item.name && (
-                <div className="pl-6 mt-1 space-y-1">
-                  {item.dropdown.map((dropdownItem) => (
-                    <Link
-                      key={dropdownItem.name}
-                      href={dropdownItem.href}
-                      className="block px-4 py-2 text-sm rounded-md transition-all duration-150 text-black hover:text-[var(--color-purple)] hover:bg-gray-100"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {dropdownItem.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <Link
-              href={item.href}
-              className={`block px-4 py-3 text-base font-medium rounded-md transition-all duration-150 ${
-                isActive 
-                  ? "text-[var(--color-purple)] bg-gray-100 font-semibold" 
-                  : "text-black hover:text-[var(--color-purple)] hover:bg-gray-100"
-              }`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item.name}
-            </Link>
-          )}
-        </div>
-      );
-    })}
-    <div className="px-4 py-3">
-      <Button 
-        variant="default" 
-        className="w-full bg-gradient-to-r from-[var(--color-flame-orange)] to-[var(--color-flame-red)] text-white hover:shadow-lg transition-all duration-300 py-3 rounded-md font-semibold"
-        onClick={() => setIsMenuOpen(false)}
-      >
-        Book Now
-      </Button>
-    </div>
-  </div>
-</div>
-          )}
         </div>
       </header>
 
-      {/* Mobile Bottom Navigation */}
-      {/* {isMobile && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-black dark:bg-black border-t border-[var(--color-light-gray)] lg:hidden">
-          <div className="flex justify-around items-center h-16">
-            {navigation.slice(0, 4).map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex flex-col items-center justify-center p-2 ${
-                  pathname === item.href 
-                    ? "text-[var(--color-purple)]" 
-                    : "text-[var(--color-black)] dark:text-[var(--color-white)]"
-                }`}
-              >
-                <span className="text-xs">{item.name}</span>
-              </Link>
+      {/* Mobile Top Bar (visible on small screens) */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#0D0D2B] text-white p-3 shadow-md">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            {/* <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center"> */}
+              <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
+            {/* </div> */}
+          </Link>
+
+          {/* Right side buttons */}
+          <div className="flex items-center space-x-3">
+            <Link 
+              href="/contact" 
+              className="px-3 py-1 bg-white text-[#0D0D2B] rounded-full text-sm font-medium"
+            >
+              Contact
+            </Link>
+            <button className="px-3 py-1 bg-[#4D4DFF] text-white rounded-full text-sm font-medium">
+              Book Now
+            </button>
+            <button 
+              className="p-2 hidden sm:flex"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <FaBars size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu (expanded when menu button is clicked) */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed top-16 left-0 right-0 z-50 bg-[#0D0D2B] text-white shadow-lg">
+          <div className="p-4 border-t border-gray-700">
+            {navigation.map((item, index) => (
+              <div key={item.name} className="mb-2">
+                <Link
+                  href={item.href}
+                  className={`flex items-center justify-between p-3 rounded-lg ${
+                    isActive(item.href) ? 'bg-white/10' : 'hover:bg-white/5'
+                  }`}
+                  onClick={() => item.dropdown ? toggleDropdown({}, index) : setMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center">
+                    <item.icon className="mr-3" />
+                    {item.name}
+                  </div>
+                  {item.dropdown && (
+                    <span>
+                      {activeDropdown === index ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
+                    </span>
+                  )}
+                </Link>
+                
+                {/* Mobile Dropdown */}
+                {item.dropdown && activeDropdown === index && (
+                  <div className="ml-6 mt-1 bg-[#1A1A3B] rounded-lg overflow-hidden">
+                    {item.dropdown.map((dropdownItem) => (
+                      <Link
+                        key={dropdownItem.name}
+                        href={dropdownItem.href}
+                        className={`block px-4 py-3 transition-all duration-200 ${
+                          isActive(dropdownItem.href) ? 'bg-white/10' : 'hover:bg-white/5'
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {dropdownItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
-      )} */}
+      )}
+
+      {/* Mobile Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+        <div className="grid grid-cols-5">
+          {/* Gaming Zone */}
+          <Link
+            href="/gaming"
+            className={`flex flex-col items-center justify-center py-3 transition-all ${
+              isActive("/gaming") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            }`}
+          >
+            <FaGamepad size={20} />
+            <span className="text-xs mt-1">Gaming</span>
+          </Link>
+          
+          {/* Food Zone */}
+          <Link
+            href="/food"
+            className={`flex flex-col items-center justify-center py-3 transition-all ${
+              isActive("/food") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            }`}
+          >
+            <FaUtensils size={20} />
+            <span className="text-xs mt-1">Food</span>
+          </Link>
+          
+          {/* Home - Centered */}
+          <Link
+            href="/"
+            className={`flex flex-col items-center justify-center py-3 transition-all ${
+              isActive("/") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            }`}
+          >
+            <div className="w-12 h-12 rounded-full bg-[#0D0D2B] flex items-center justify-center -mt-6">
+              <FaHome size={20} className="text-white" />
+            </div>
+            <span className="text-xs mt-1">Home</span>
+          </Link>
+          
+          {/* Celebration Zone */}
+          <Link
+            href="/celebrations"
+            className={`flex flex-col items-center justify-center py-3 transition-all ${
+              isActive("/celebrations") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            }`}
+          >
+            <FaGlassCheers size={20} />
+            <span className="text-xs mt-1">Celebrate</span>
+          </Link>
+          
+          {/* Gallery */}
+          <Link
+            href="/gallery"
+            className={`flex flex-col items-center justify-center py-3 transition-all ${
+              isActive("/gallery") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            }`}
+          >
+            <FaImages size={20} />
+            <span className="text-xs mt-1">Gallery</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed right-4 bottom-16 lg:bottom-4 z-50 w-12 h-12 rounded-full bg-[#0D0D2B] text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+        >
+          <FaArrowUp />
+        </button>
+      )}
+
+      {/* Add padding to content for fixed header */}
+      <div className="pt-14 sm:pt-12 lg:pt-20 pb-5 lg:pb-0" />
+
+      <style jsx>{`
+        /* Animation for scroll to top button */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .fixed button {
+          animation: fadeInUp 0.3s ease-out;
+        }
+      `}</style>
     </>
   );
 };

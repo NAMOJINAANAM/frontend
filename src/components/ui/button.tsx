@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect, ButtonHTMLAttributes } from 'react';
-
+import Link from "next/link";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg'|'xl';
   isLoading?: boolean;
   icon?: React.ComponentType<{ className?: string }>;
   iconPosition?: 'left' | 'right';
+  href?:string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   iconPosition = 'left',
   className = '',
   onClick,
+  href,
   ...props
 }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -61,6 +63,7 @@ const Button: React.FC<ButtonProps> = ({
   const animationClass = isMounted ? 'animate-fade-in' : 'opacity-0';
 
   return (
+    <Link href={`${href}`}>
     <button
       className={`cursor-pointer ${baseClasses} ${variants[variant]} ${sizes[size]} ${disabledClasses} ${animationClass} ${className}`}
       disabled={disabled || isLoading}
@@ -104,6 +107,7 @@ const Button: React.FC<ButtonProps> = ({
         <Icon className={`ml-2 ${iconSizes[size]}`} />
       )}
     </button>
+    </Link>
   );
 };
 
