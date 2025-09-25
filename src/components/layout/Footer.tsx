@@ -2,255 +2,221 @@
 
 import Link from 'next/link';
 import { 
-  FaHome, 
-  FaGamepad, 
-  FaUtensils, 
-  FaGlassCheers, 
-  FaImages, 
-  FaPhone, 
   FaFacebook, 
   FaTwitter, 
   FaInstagram, 
   FaYoutube,
-  FaMapMarkerAlt,
-  FaPhoneAlt,
+  FaPhone,
   FaEnvelope,
-  FaClock
+  FaMapMarkerAlt,
+  FaClock,
+  FaGamepad,
+  FaTrophy,
+  FaStar,
+  FaArrowRight
 } from 'react-icons/fa';
 
-const Footer = () => {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: "Home", href: "/", icon: FaHome },
-    { name: "Gaming Zone", href: "/gaming", icon: FaGamepad },
-    { name: "Food Zone", href: "/food", icon: FaUtensils },
-    { name: "Celebrations", href: "/celebrations", icon: FaGlassCheers },
-    { name: "Gallery", href: "/gallery", icon: FaImages },
-    { name: "Contact", href: "/contact", icon: FaPhone }
+    { name: "Arcade Games", href: "/gaming/arcade" },
+    { name: "VR Experience", href: "/gaming/vr" },
+    { name: "Bowling Alley", href: "/gaming/bowling" },
+    { name: "Birthday Parties", href: "/celebrations/birthdays" },
+    { name: "Food Menu", href: "/food" },
+    { name: "Event Gallery", href: "/gallery" },
   ];
 
-  const gamingServices = [
-    "Arcade Games",
-    "VR Experiences",
-    "Bowling Alley",
-    "Laser Tag",
-    "E-Sports Arena",
-    "Kids Zone"
-  ];
-
-  const foodServices = [
-    "Multi-Cuisine Restaurant",
-    "Snack Bar",
-    "Beverage Counter",
-    "Party Catering",
-    "Custom Cakes"
-  ];
-
-  const contactInfo = [
-    {
-      icon: FaMapMarkerAlt,
-      text: "123 Fun Street, Entertainment District, City - 123456"
-    },
-    {
-      icon: FaPhoneAlt,
-      text: "+1 (555) 123-4567"
-    },
-    {
-      icon: FaEnvelope,
-      text: "info@funzone.com"
-    },
-    {
-      icon: FaClock,
-      text: "Mon-Sun: 10:00 AM - 11:00 PM"
-    }
+  const services = [
+    { name: "Gaming Tournaments", icon: FaTrophy },
+    { name: "Private Events", icon: FaStar },
+    { name: "VR Gaming", icon: FaGamepad },
+    { name: "Party Planning", icon: FaStar },
+    { name: "Food Catering", icon: FaStar },
+    { name: "Team Building", icon: FaTrophy },
   ];
 
   const socialLinks = [
-    { icon: FaFacebook, href: "#", color: "hover:text-blue-600" },
-    { icon: FaTwitter, href: "#", color: "hover:text-blue-400" },
-    { icon: FaInstagram, href: "#", color: "hover:text-pink-600" },
-    { icon: FaYoutube, href: "#", color: "hover:text-red-600" }
+    { icon: FaFacebook, href: "#", color: "hover:text-blue-400" },
+    { icon: FaInstagram, href: "#", color: "hover:text-pink-400" },
+    { icon: FaTwitter, href: "#", color: "hover:text-blue-300" },
+    { icon: FaYoutube, href: "#", color: "hover:text-red-500" },
   ];
 
   return (
-    <>
-      {/* Main Footer */}
-      <footer className="bg-[#0D0D2B] text-white">
-        {/* Newsletter Section */}
-        {/* <div className="bg-gradient-to-r from-purple-700 to-blue-700 py-8">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row items-center justify-between">
-              <div className="text-center lg:text-left mb-6 lg:mb-0">
-                <h3 className="text-2xl font-bold mb-2">Stay Updated</h3>
-                <p className="text-white/90">Get the latest news and special offers from FunZone</p>
+    <footer className="bg-black text-white border-t-4 border-[var(--color-primary)]">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="inline-block mb-6">
+              <div className="w-20 h-20 bg-[var(--color-primary)] rounded-full border-4 border-black flex items-center justify-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200">
+                <div className="relative">
+                  <span className="text-2xl font-bold text-black">FZ</span>
+                  <FaTrophy className="absolute -top-2 -right-3 text-black text-sm" />
+                </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  className="px-4 py-3 rounded-full text-gray-800 w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <button className="bg-white text-[#0D0D2B] px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                  Subscribe
-                </button>
+            </Link>
+            
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              Your ultimate gaming destination! Experience state-of-the-art arcade games, 
+              VR adventures, bowling alleys, and unforgettable celebrations. Book your 
+              gaming session today!
+            </p>
+            
+            <div className="flex space-x-4">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  className={`w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200 transform hover:scale-110 ${social.color}`}
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-xl font-bold mb-6 text-[var(--color-primary)] flex items-center gap-2">
+              <FaGamepad className="w-5 h-5" />
+              Quick Links
+            </h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link 
+                    href={link.href}
+                    className="text-gray-300 hover:text-[var(--color-primary)] transition-all duration-200 flex items-center gap-2 group"
+                  >
+                    <FaArrowRight className="w-3 h-3 text-[var(--color-primary)] transform group-hover:translate-x-1 transition-transform duration-200" />
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Our Services */}
+          <div>
+            <h3 className="text-xl font-bold mb-6 text-[var(--color-primary)] flex items-center gap-2">
+              <FaTrophy className="w-5 h-5" />
+              Our Services
+            </h3>
+            <ul className="space-y-3">
+              {services.map((service, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center border-2 border-[var(--color-primary)]">
+                    <service.icon className="w-3 h-3 text-[var(--color-primary)]" />
+                  </div>
+                  <span className="text-gray-300">{service.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-xl font-bold mb-6 text-[var(--color-primary)] flex items-center gap-2">
+              <FaMapMarkerAlt className="w-5 h-5" />
+              Visit Us
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <FaMapMarkerAlt className="w-5 h-5 text-[var(--color-primary)] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-gray-300 font-medium">Our Location</p>
+                  <p className="text-gray-400 text-sm">123 Gaming Street, Fun City, FC 12345</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <FaPhone className="w-5 h-5 text-[var(--color-primary)] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-gray-300 font-medium">Call Us</p>
+                  <p className="text-gray-400 text-sm">+1 (555) 123-GAME</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <FaEnvelope className="w-5 h-5 text-[var(--color-primary)] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-gray-300 font-medium">Email Us</p>
+                  <p className="text-gray-400 text-sm">info@funzone.com</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <FaClock className="w-5 h-5 text-[var(--color-primary)] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-gray-300 font-medium">Opening Hours</p>
+                  <p className="text-gray-400 text-sm">Mon-Sun: 10:00 AM - 12:00 AM</p>
+                </div>
               </div>
             </div>
+
+            {/* Book Now Button */}
+            <Link
+              href="/book-now"
+              className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-black px-6 py-3 rounded-lg font-bold mt-6 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:scale-105"
+            >
+              <FaGamepad className="w-4 h-4" />
+              Book Your Session
+            </Link>
+          </div>
+        </div>
+
+        {/* Gaming Stats */}
+        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 pt-8 border-t border-gray-800">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[var(--color-primary)] mb-2">50+</div>
+            <div className="text-gray-300 text-sm">Arcade Games</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[var(--color-primary)] mb-2">10K+</div>
+            <div className="text-gray-300 text-sm">Happy Players</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[var(--color-primary)] mb-2">500+</div>
+            <div className="text-gray-300 text-sm">Events Hosted</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-[var(--color-primary)] mb-2">24/7</div>
+            <div className="text-gray-300 text-sm">Support</div>
           </div>
         </div> */}
+      </div>
 
-        {/* Main Footer Content */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Company Info */}
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                  <span className="font-bold text-xl text-[#0D0D2B]">FZ</span>
-                </div>
-                <span className="font-bold text-2xl">FunZone</span>
-              </div>
-              <p className="text-gray-300 mb-6">
-                Your ultimate destination for entertainment, dining, and celebrations. 
-                Experience the best gaming and culinary adventures under one roof.
-              </p>
-              
-              {/* Social Links - Hidden on mobile, shown on desktop */}
-              <div className="hidden md:flex space-x-4">
-                {socialLinks.map((social, index) => (
-                  <a 
-                    key={index}
-                    href={social.href}
-                    className={`w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 ${social.color} hover:scale-110`}
-                  >
-                    <social.icon size={18} />
-                  </a>
-                ))}
-              </div>
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="text-gray-400 text-sm">
+              © {currentYear} Fun Zone Gaming Center. All rights reserved.
             </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4 border-b border-white/20 pb-2">Quick Links</h4>
-              <ul className="space-y-2">
-                {quickLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link 
-                      href={link.href}
-                      className="flex items-center text-gray-300 hover:text-white transition-colors group"
-                    >
-                      <link.icon className="mr-2 text-sm group-hover:scale-110 transition-transform" />
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Services */}
-            <div className="md:col-span-2 lg:col-span-1">
-              <h4 className="text-lg font-semibold mb-4 border-b border-white/20 pb-2">Our Services</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <h5 className="font-medium text-purple-300 mb-2 flex items-center">
-                    <FaGamepad className="mr-2" /> Gaming
-                  </h5>
-                  <ul className="space-y-1 text-sm text-gray-300">
-                    {gamingServices.map((service, index) => (
-                      <li key={index} className="hover:text-white transition-colors">
-                        {service}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h5 className="font-medium text-purple-300 mb-2 flex items-center">
-                    <FaUtensils className="mr-2" /> Food & Dining
-                  </h5>
-                  <ul className="space-y-1 text-sm text-gray-300">
-                    {foodServices.map((service, index) => (
-                      <li key={index} className="hover:text-white transition-colors">
-                        {service}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4 border-b border-white/20 pb-2">Contact Info</h4>
-              <div className="space-y-3">
-                {contactInfo.map((item, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <item.icon className="text-purple-300 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Social Links - Shown on mobile, hidden on desktop */}
-              <div className="mt-6 flex space-x-4 md:hidden justify-center">
-                {socialLinks.map((social, index) => (
-                  <a 
-                    key={index}
-                    href={social.href}
-                    className={`w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 ${social.color} hover:scale-110`}
-                  >
-                    <social.icon size={18} />
-                  </a>
-                ))}
-              </div>
+            
+            <div className="flex flex-wrap justify-center gap-6 text-sm">
+              <Link href="/privacy" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+                Terms of Service
+              </Link>
+              <Link href="/safety" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+                Safety Guidelines
+              </Link>
+              <Link href="/careers" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+                Careers
+              </Link>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Footer */}
-        <div className="border-t border-white/20">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <p className="text-gray-400 text-sm text-center md:text-left mb-4 md:mb-0">
-                © {currentYear} FunZone Entertainment Center. All rights reserved.
-              </p>
-              <div className="flex space-x-6 text-sm text-gray-400">
-                <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-                <Link href="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Mobile Quick Action Bar - Only visible on small screens */}
-      <div className="lg:hidden bg-white border-t border-gray-200 py-3 px-4">
-        <div className="flex justify-between items-center">
-          <a href="tel:+15551234567" className="flex items-center space-x-2 text-[#0D0D2B]">
-            <FaPhoneAlt className="text-purple-600" />
-            <span className="text-sm font-medium">Call Now</span>
-          </a>
-          <a href="mailto:info@funzone.com" className="flex items-center space-x-2 text-[#0D0D2B]">
-            <FaEnvelope className="text-purple-600" />
-            <span className="text-sm font-medium">Email Us</span>
-          </a>
-          <a href="#map" className="flex items-center space-x-2 text-[#0D0D2B]">
-            <FaMapMarkerAlt className="text-purple-600" />
-            <span className="text-sm font-medium">Directions</span>
-          </a>
         </div>
       </div>
 
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .container {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-        }
-      `}</style>
-    </>
+    </footer>
   );
-};
-
-export default Footer;
+}

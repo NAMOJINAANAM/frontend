@@ -1,19 +1,22 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  FaHome, 
-  FaGamepad, 
-  FaUtensils, 
-  FaGlassCheers, 
-  FaImages, 
-  FaPhone, 
-  FaChevronDown,
+import {
+  FaHome,
+  FaGamepad,
+  FaUtensils,
+  FaGlassCheers,
+  FaImages,
+  FaPhone,
   FaChevronUp,
-  FaArrowUp,
-  FaBars
+  FaChevronDown,
+  FaBars,
+  FaTimes,
+  FaBook,
+  FaDice,
+  FaTrophy
 } from 'react-icons/fa';
 
 const navigation = [
@@ -21,13 +24,11 @@ const navigation = [
     name: "Home", 
     href: "/",
     icon: FaHome,
-    color: "home"
   },
   { 
     name: "Gaming", 
     href: "/gaming",
     icon: FaGamepad,
-    color: "gaming",
     dropdown: [
       { name: "Arcade Games", href: "/gaming/arcade" },
       { name: "Bowling Alley", href: "/gaming/bowling" },
@@ -39,13 +40,11 @@ const navigation = [
     name: "Food", 
     href: "/food",
     icon: FaUtensils,
-    color: "food"
   },
   { 
     name: "Celebration", 
     href: "/celebrations",
     icon: FaGlassCheers,
-    color: "celebration",
     dropdown: [
       { name: "Birthday Parties", href: "/celebrations/birthdays" },
       { name: "Corporate Events", href: "/celebrations/corporate" },
@@ -56,337 +55,386 @@ const navigation = [
     name: "Gallery", 
     href: "/gallery",
     icon: FaImages,
-    color: "gallery"
   },
   { 
     name: "Contact", 
     href: "/contact",
     icon: FaPhone,
-    color: "contact"
   },
 ];
 
-const Header = () => {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [showNavbar, setShowNavbar] = useState(true);
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showBookText, setShowBookText] = useState(false);
   const pathname = usePathname();
-  const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Handle scroll events
-  const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-    
-    // Show/hide navbar based on scroll direction
-    if (currentScrollY > lastScrollY && currentScrollY > 100) {
-      // Scrolling down
-      setShowNavbar(false);
-    } else {
-      // Scrolling up
-      setShowNavbar(true);
-    }
-    
-    setLastScrollY(currentScrollY);
-    setIsScrolled(currentScrollY > 10);
-    setShowScrollTop(currentScrollY > 300);
-  }, [lastScrollY]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      setShowScrollTop(currentScrollY > 400);
+      
+      if (window.innerWidth < 768) {
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+          setIsScrolled(false);
+        } else {
+          setIsScrolled(true);
+        }
+      } else {
+        setIsScrolled(currentScrollY > 10);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, [lastScrollY]);
 
-  // Scroll to top function
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (activeDropdown !== null && 
-          dropdownRefs.current[activeDropdown] && 
-          !dropdownRefs.current[activeDropdown]!.contains(event.target)) {
-        setActiveDropdown(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [activeDropdown]);
-
-  // Toggle dropdown
-  const toggleDropdown = (e: any, index: any) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setActiveDropdown(activeDropdown === index ? null : index);
+  const toggleDropdown = (name: string) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
   };
 
-  // Handle hover for desktop dropdowns
-  const handleMouseEnter = (index: any) => {
-    if (window.innerWidth >= 1024) { // Only for desktop
-      setActiveDropdown(index);
-    }
+  const closeMobileNav = () => {
+    setShowMobileNav(false);
+    setActiveDropdown(null);
   };
 
-  const handleMouseLeave = () => {
-    if (window.innerWidth >= 1024) { // Only for desktop
-      setActiveDropdown(null);
-    }
-  };
-
-  // Check if a nav item is active
-  const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
-    return pathname.startsWith(href);
-  };
+  // Desktop Navigation Item
+  const DesktopNavItem = ({ item }: { item: typeof navigation[0] }) => (
+    <div className="relative group">
+      {item.dropdown ? (
+        <>
+          <button
+            onClick={() => toggleDropdown(item.name)}
+            className={`flex items-center gap-1 px-4 py-3 rounded-lg transition-all duration-200 border-2 ${
+              pathname.startsWith(item.href)
+                ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+            }`}
+          >
+            <item.icon className="w-4 h-4" />
+            {item.name}
+            <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${
+              activeDropdown === item.name ? 'rotate-180' : ''
+            }`} />
+          </button>
+          
+          {activeDropdown === item.name && (
+            <div className="absolute top-full left-0 mt-2 w-48 bg-black border-2 border-[var(--color-primary)] rounded-lg shadow-[4px_4px_0px_0px_rgba(239,249,35,1)] z-50">
+              {item.dropdown.map((subItem) => (
+                <Link
+                  key={subItem.name}
+                  href={subItem.href}
+                  className="block px-4 py-3 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200 border-b border-gray-700 last:border-b-0 first:rounded-t-lg last:rounded-b-lg"
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center gap-4">
+                    <FaDice className="w-3 h-3 text-[var(--color-primary)]" />
+                    {subItem.name}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <Link
+          href={item.href}
+          className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 border-2 ${
+            pathname === item.href
+              ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+              : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+          }`}
+        >
+          <item.icon className="w-4 h-4" />
+          {item.name}
+        </Link>
+      )}
+    </div>
+  );
 
   return (
     <>
       {/* Desktop Header */}
-      <header className={`hidden lg:block fixed top-0 w-full z-50 transition-all duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white backdrop-blur-md shadow-lg py-2' 
-          : 'bg-[#0D0D2B] py-4'
-      }`}>
-        <div className="container-fluid mx-auto px-4">
+          ? 'bg-[#000000cc] shadow-lg border-b-2 border-[var(--color-primary)]' 
+          : 'bg-black'
+      } hidden lg:block`}>
+        <nav className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
+            {/* Left Navigation */}
+            <div className="flex items-center gap-4">
+              {navigation.slice(1, 4).map((item) => (
+                <DesktopNavItem key={item.name} item={item} />
+              ))}
+            </div>
+
+            {/* Center Logo */}
+            <Link 
+  href="/" 
+  className="flex-shrink-0 transform hover:scale-105 transition-transform duration-200 relative"
+>
+  {/* Geometric Background Pattern */}
+  <div className="absolute inset-0 flex items-center justify-center">
+    {/* Main Hexagon */}
+    <div className="w-24 h-24 bg-transparent relative">
+      {/* Large Hexagon */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/20 to-yellow-300/20 clip-path-hexagon transform rotate-30"></div>
+      
+      {/* Medium Hexagon */}
+      <div className="absolute inset-2 bg-gradient-to-br from-[var(--color-primary)]/30 to-yellow-300/30 clip-path-hexagon transform rotate-60"></div>
+      
+      {/* Small Hexagon */}
+      <div className="absolute inset-4 bg-gradient-to-br from-[var(--color-primary)]/40 to-yellow-300/40 clip-path-hexagon transform rotate-90"></div>
+      
+      {/* Center Star Points */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-2 h-2 bg-[var(--color-primary)]/60 rounded-full"></div>
+      </div>
+    </div>
+  </div>
+
+  {/* Main Logo */}
+  <div className="relative w-20 h-20 bg-[var(--color-primary)] rounded-full border-4 border-black flex items-center justify-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 z-10">
+    <div className="relative">
+      <span className="text-2xl font-bold text-black">FZ</span>
+      <FaTrophy className="absolute -top-2 -right-3 text-black text-sm" />
+    </div>
+  </div>
+</Link>
+
+            {/* Right Navigation */}
+            <div className="flex items-center gap-4">
+              {navigation.slice(4).map((item) => (
+                <DesktopNavItem key={item.name} item={item} />
+              ))}
+              <button
+            className={`flex items-center gap-1 px-4 py-3 rounded-lg transition-all duration-200 border-2 cursor-pointer bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
+          >
+            <FaBook className="w-4 h-4" />
+            Book Now
+          </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* Tablet/Mobile Header */}
+      <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-black border-b-2 border-[var(--color-primary)] lg:hidden`}>
+        <div className="px-3 py-2">
+          <div className="flex items-center justify-between">
+            {/* Menu Button */}
+            {/* <button
+              onClick={() => setShowMobileNav(!showMobileNav)}
+              className="p-2 rounded-lg bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
+            >
+              {showMobileNav ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
+            </button> */}
+            
+            <button
+              className="bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
+            >
+              <FaBook className="w-4 h-4" />
+            </button>
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2">
-              <img src="/images/logo.png" className='w-12 h-12' alt="logo" />
+            <Link href="/" className="flex-shrink-0">
+              <div className="w-14 h-14 bg-[var(--color-primary)] rounded-full border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <span className="text-lg font-bold text-black">FZ</span>
+              </div>
             </Link>
+            
+            {/* Contact Button */}
+            <Link
+              href="/contact"
+              className="bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
+            >
+              <FaPhone className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
 
-            {/* Navigation */}
-            <nav className="flex items-center space-x-1">
-              {navigation
-              .filter(item=>item.name!="Home")
-              .map((item, index) => (
-                <div 
-                  key={item.name} 
-                  className="relative group"
-                  ref={(el) => {
-                    dropdownRefs.current[index] = el;
-                  }}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Link
-                    href={item.href}
-                    className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 ${
-                      isActive(item.href)
-                        ? 'bg-[#0D0D2B] text-white shadow-lg'
-                        : isScrolled
-                        ? 'text-[#0D0D2B] hover:bg-gray-100'
-                        : 'text-white/90 hover:bg-white/10'
-                    }`}
-                    onClick={(e) => item.dropdown && toggleDropdown(e, index)}
-                  >
-                    <item.icon className="mr-2" />
-                    {item.name}
-                    {item.dropdown && (
-                      <span className="ml-2">
-                        {activeDropdown === index ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
-                      </span>
-                    )}
-                  </Link>
-
-                  {/* Dropdown Menu */}
-                  {item.dropdown && (
-                    <div 
-                      className={`absolute top-full left-0 mt-2 w-56 rounded-xl shadow-lg overflow-hidden transition-all duration-300 origin-top ${
-                        activeDropdown === index
-                          ? 'opacity-100 scale-100'
-                          : 'opacity-0 scale-95 pointer-events-none'
-                      } ${
-                        isScrolled 
-                          ? 'bg-white border border-gray-200' 
-                          : 'bg-[#0D0D2B] border border-gray-800'
+        {/* Mobile Navigation Drawer */}
+        {/* {showMobileNav && (
+          <div className="absolute top-full left-0 right-0 bg-black border-b-2 border-[var(--color-primary)] shadow-lg">
+            <div className="p-3 space-y-2">
+              {navigation.map((item) => (
+                <div key={item.name} className="relative">
+                  {item.dropdown ? (
+                    <>
+                      <button
+                        onClick={() => toggleDropdown(item.name)}
+                        className={`flex items-center justify-between w-full p-3 rounded-lg transition-all duration-200 border-2 ${
+                          pathname.startsWith(item.href)
+                            ? 'bg-[var(--color-primary)] text-black border-black'
+                            : 'bg-black text-white border-[var(--color-primary)]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <item.icon className="w-4 h-4" />
+                          <span>{item.name}</span>
+                        </div>
+                        <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${
+                          activeDropdown === item.name ? 'rotate-180' : ''
+                        }`} />
+                      </button>
+                      
+                      {activeDropdown === item.name && (
+                        <div className="ml-4 mt-2 space-y-1 border-l-2 border-[var(--color-primary)] pl-3">
+                          {item.dropdown.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="block px-3 py-2 text-white hover:bg-[var(--color-primary)] hover:text-black rounded transition-all duration-200"
+                              onClick={closeMobileNav}
+                            >
+                              <div className="flex items-center gap-4">
+                                <FaDice className="w-3 h-3" />
+                                {subItem.name}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-4 p-3 rounded-lg transition-all duration-200 border-2 ${
+                        pathname === item.href
+                          ? 'bg-[var(--color-primary)] text-black border-black'
+                          : 'bg-black text-white border-[var(--color-primary)]'
                       }`}
+                      onClick={closeMobileNav}
                     >
-                      {item.dropdown.map((dropdownItem) => (
-                        <Link
-                          key={dropdownItem.name}
-                          href={dropdownItem.href}
-                          className={`block px-4 py-3 transition-all duration-200 ${
-                            isScrolled
-                              ? 'text-[#0D0D2B] hover:bg-gray-100'
-                              : 'text-gray-200 hover:bg-white/10 hover:text-white'
-                          } ${isActive(dropdownItem.href) ? (isScrolled ? 'bg-gray-100' : 'bg-white/10 text-white') : ''}`}
-                        >
-                          {dropdownItem.name}
-                        </Link>
-                      ))}
-                    </div>
+                      <item.icon className="w-4 h-4" />
+                      {item.name}
+                    </Link>
                   )}
                 </div>
               ))}
-            </nav>
-
-            {/* CTA Button */}
-            <button className={`px-6 py-2 rounded-full font-semibold transition-all ${
-              isScrolled
-                ? 'bg-[#0D0D2B] text-white hover:shadow-lg'
-                : 'bg-white text-[#0D0D2B] hover:bg-gray-100'
-            }`}>
-              Book Now
-            </button>
+            </div>
           </div>
-        </div>
+        )} */}
       </header>
 
-      {/* Mobile Top Bar (visible on small screens) */}
-      <div className={`lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#0D0D2B] text-white p-3 shadow-md transition-transform duration-300 ${
-        showNavbar ? 'translate-y-0' : '-translate-y-0'
-      }`}>
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <img src="/images/logo.png" className='w-10 h-10' alt="logo" />
-          </Link>
-
-          {/* Right side buttons - Only Book Now button */}
-          <div className="flex items-center space-x-3">
-            <button className="px-3 py-1 bg-[#4D4DFF] text-white rounded-full text-sm font-medium">
-              Book Now
-            </button>
-            <button 
-              className="p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <FaBars size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu (expanded when menu button is clicked) */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed top-16 left-0 right-0 z-50 bg-[#0D0D2B] text-white shadow-lg">
-          <div className="p-4 border-t border-gray-700">
-            {navigation.map((item, index) => (
-              <div key={item.name} className="mb-2">
-                <Link
-                  href={item.href}
-                  className={`flex items-center justify-between p-3 rounded-lg ${
-                    isActive(item.href) ? 'bg-white/10' : 'hover:bg-white/5'
-                  }`}
-                  onClick={() => item.dropdown ? toggleDropdown({}, index) : setMobileMenuOpen(false)}
-                >
-                  <div className="flex items-center">
-                    <item.icon className="mr-3" />
-                    {item.name}
-                  </div>
-                  {item.dropdown && (
-                    <span>
-                      {activeDropdown === index ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
-                    </span>
-                  )}
-                </Link>
-                
-                {/* Mobile Dropdown */}
-                {item.dropdown && activeDropdown === index && (
-                  <div className="ml-6 mt-1 bg-[#1A1A3B] rounded-lg overflow-hidden">
-                    {item.dropdown.map((dropdownItem) => (
-                      <Link
-                        key={dropdownItem.name}
-                        href={dropdownItem.href}
-                        className={`block px-4 py-3 transition-all duration-200 ${
-                          isActive(dropdownItem.href) ? 'bg-white/10' : 'hover:bg-white/5'
-                        }`}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {dropdownItem.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Bottom Navigation - Now with 5 items including Contact */}
-      <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg transition-transform duration-300 ${
-        showNavbar ? 'translate-y-0' : 'translate-y-full'
-      }`}>
-        <div className="grid grid-cols-5">
-          {/* Gaming Zone */}
+      {/* Mobile Bottom Navigation - Optimized for small screens */}
+      <nav className={`fixed bottom-0 left-0 right-0 z-40 bg-black border-t-2 border-[var(--color-primary)] transition-transform duration-300 ${
+        isScrolled ? 'translate-y-0' : 'translate-y-full'
+      } lg:hidden`}>
+        <div className="flex items-center justify-between p-2">
+          {/* Gaming */}
           <Link
             href="/gaming"
-            className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/gaming") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
+              pathname.startsWith('/gaming')
+                ? 'text-[var(--color-primary)] bg-black'
+                : 'text-white'
             }`}
           >
-            <FaGamepad size={20} />
-            <span className="text-xs mt-1">Gaming</span>
+            <FaGamepad className="w-5 h-5 mb-1" />
+            <span className="text-xs">Gaming</span>
           </Link>
-          
-          {/* Food Zone */}
-          <Link
-            href="/food"
-            className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/food") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
-            }`}
-          >
-            <FaUtensils size={20} />
-            <span className="text-xs mt-1">Food</span>
-          </Link>
-          
-          {/* Home - Centered */}
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
-            }`}
-          >
-            <div className="w-12 h-12 rounded-full bg-[#0D0D2B] flex items-center justify-center -mt-6">
-              <FaHome size={20} className="text-white" />
-            </div>
-            <span className="text-xs mt-1">Home</span>
-          </Link>
-          
-          {/* Celebration Zone */}
+
+          {/* Celebration */}
           <Link
             href="/celebrations"
-            className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/celebrations") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
+              pathname.startsWith('/celebrations')
+                ? 'text-[var(--color-primary)] bg-black'
+                : 'text-white'
             }`}
           >
-            <FaGlassCheers size={20} />
-            <span className="text-xs mt-1">Celebrate</span>
+            <FaGlassCheers className="w-5 h-5 mb-1" />
+            <span className="text-xs">Party</span>
           </Link>
-          
-          {/* Contact - Replacing Gallery */}
+
+          {/* Home - Center */}
           <Link
-            href="/contact"
-            className={`flex flex-col items-center justify-center py-3 transition-all ${
-              isActive("/contact") ? 'text-[#0D0D2B]' : 'text-gray-500 hover:text-[#0D0D2B]'
+            href="/"
+            className={`flex flex-col items-center p-3 rounded-full transition-all duration-200 min-w-[60px] -mt-4 ${
+              pathname === '/'
+                ? 'bg-[var(--color-primary)] text-black border-2 border-black'
+                : 'bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)]'
             }`}
           >
-            <FaPhone size={20} />
-            <span className="text-xs mt-1">Contact</span>
+            <FaHome className="w-6 h-6 mb-1" />
+            <span className="text-xs font-bold">Home</span>
+          </Link>
+
+          {/* Food */}
+          <Link
+            href="/food"
+            className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
+              pathname.startsWith('/food')
+                ? 'text-[var(--color-primary)] bg-black'
+                : 'text-white'
+            }`}
+          >
+            <FaUtensils className="w-5 h-5 mb-1" />
+            <span className="text-xs">Food</span>
+          </Link>
+
+          {/* Gallery */}
+          <Link
+            href="/gallery"
+            className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
+              pathname.startsWith('/gallery')
+                ? 'text-[var(--color-primary)] bg-black'
+                : 'text-white'
+            }`}
+          >
+            <FaImages className="w-5 h-5 mb-1" />
+            <span className="text-xs">Gallery</span>
           </Link>
         </div>
-      </div>
+      </nav>
 
-      {/* Scroll to Top Button - Always visible when scrolled */}
+      {/* Floating Book Now Button */}
+      <Link
+        href="/book-now"
+        className="fixed z-50 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:scale-105 flex items-center gap-4"
+        style={{
+          top: '50%',
+          right: '20px',
+          transform: 'translateY(-50%)'
+        }}
+        onMouseEnter={() => setShowBookText(true)}
+        onMouseLeave={() => setShowBookText(false)}
+      >
+        <div className={`flex items-center gap-4 transition-all duration-300 ${
+          showBookText ? 'pr-4 pl-3 py-3' : 'p-3'
+        }`}>
+          <FaBook className="w-5 h-5 flex-shrink-0" />
+          <span className={`whitespace-nowrap transition-all duration-300 ${
+            showBookText ? 'max-w-32 opacity-100' : 'max-w-0 opacity-0'
+          } overflow-hidden`}>
+            Book Now
+          </span>
+        </div>
+      </Link>
+
+      {/* Scroll to Top Button */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed right-4 bottom-20 lg:bottom-4 z-50 w-12 h-12 rounded-full bg-[#0D0D2B] text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+          className="fixed bottom-4 right-4 z-50 w-12 h-12 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black flex items-center justify-center transition-all duration-200 hover:scale-110 lg:bottom-6 lg:right-6"
         >
-          <FaArrowUp />
+          <FaChevronUp className="w-5 h-5" />
         </button>
       )}
 
-      {/* Add padding to content for fixed header */}
-      <div className="pt-16 sm:pt-16 lg:pt-20 lg:pb-0" />
+      {/* Spacer for fixed header */}
+      <div className="h-16 lg:h-24"></div>
     </>
   );
-};
-
-export default Header;
+}
