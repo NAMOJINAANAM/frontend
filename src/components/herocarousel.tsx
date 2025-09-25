@@ -83,7 +83,7 @@ export default function HeroSection() {
       </div>
 
       {/* 3D Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 py-12 sm:py-20 lg:py-24">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 py-12 sm:py-15 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           
           {/* Left Content */}
@@ -121,7 +121,7 @@ export default function HeroSection() {
               </p>
               {/* image animations */}
                           <div 
-  className="absolute -right-5 sm:right-10 -top-16 lg:hidden w-fit max-w-md mx-auto lg:max-w-xl"
+  className="absolute -right-5 sm:right-10 -top-12 lg:hidden w-fit max-w-md mx-auto lg:max-w-xl z-50"
   style={{
     transform: isClient ?
       `perspective(1200px) 
