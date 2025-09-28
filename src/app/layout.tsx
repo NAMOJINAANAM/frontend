@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat, Rajdhani,Days_One } from "next/font/google";
 import "./globals.css";
+import GlobalLoader from "@/components/GlobalLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,6 +73,20 @@ export const metadata: Metadata = {
   },
 };
 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  // You can set weights/styles here if needed, but Montserrat is simple.
+  variable: '--font-montserrat', // CSS variable name for Montserrat
+});
+
+// 2. Define Rajdhani
+const daysOne = Days_One({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400', // Days One only has a single weight (400)
+  variable: '--font-days-one', // CSS variable for headings
+});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,9 +95,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${daysOne.variable} antialiased`}
       >
+        <GlobalLoader>
         {children}
+        </GlobalLoader>
       </body>
     </html>
   );

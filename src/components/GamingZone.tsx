@@ -1,254 +1,433 @@
 'use client';
 
-import Button from "@/components/ui/button";
-import { FaGamepad, FaStar, FaDice } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { GiJoystick } from "react-icons/gi";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { FaArrowRight, FaArrowLeft, FaStar, FaUsers, FaClock, FaGamepad } from 'react-icons/fa';
 
-const GamingZone = () => {
+const games = [
+  {
+    title: "Arcade Games",
+    description: "Classic games, big prizes! Test your skills on air hockey, basketball shootout, and more.",
+    image: "https://images.unsplash.com/photo-1533236897111-3e94666b2edf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    // features: ["50+ Classic Games", "Ticket Prizes", "Ages 6+"],
+    pricing: "$1-3 per play",
+    link: "/gaming/arcade",
+  },
+  {
+    title: "Bowling Alley", 
+    description: "Strike up fun for all ages! Glow-in-the-dark lanes with automated scoring.",
+    image: "https://content.jdmagicbox.com/v2/comp/hyderabad/m7/040pxx40.xx40.230330221114.k8m7/catalogue/amoeba-bowling-alley-hyderabad-sports-clubs-8gBpFhH22g.jpg",
+    // features: ["8 Modern Lanes", "Group Play", "Kids Bumpers"],
+    pricing: "$20/lane/hour",
+    link: "/gaming/bowling",
+  },
+  {
+    title: "VR Games",
+    description: "Step into the game! Immersive experiences with cutting-edge VR technology.",
+    image: "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    // features: ["Latest VR Tech", "Multiplayer Games", "Ages 12+"],
+    pricing: "$15 per session",
+    link: "/gaming/vr",
+  },
+  {
+    title: "Laser Tag",
+    description: "Team-based combat with state-of-the-art laser equipment in multi-level arena.",
+    image: "https://images.unsplash.com/photo-1574263867128-39eaed201e1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    // features: ["Multi-level Arena", "Team Play", "Ages 8+"],
+    pricing: "$12 per person",
+    link: "/gaming/laser-tag",
+  },
+  {
+    title: "E-Sports Lounge",
+    description: "Professional gaming setup with high-end PCs and consoles for competitive gaming.",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    // features: ["High-end PCs", "Tournaments", "Ages 13+"],
+    pricing: "$10/hour",
+    link: "/gaming/esports",
+  }
+];
+
+export default function GamingSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const carouselRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setIsVisible(true);
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Auto slide
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearInterval(interval);
+    };
   }, []);
 
-  const games = [
-    {
-      title: "Arcade Games",
-      description: "Classic games, big prizes! Test your skills on air hockey, basketball shootout, and more.",
-      image: "https://images.unsplash.com/photo-1533236897111-3e94666b2edf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["50+ Classic Games", "Ticket Prizes", "Ages 6+"],
-      pricing: "$1-3 per play",
-      link: "/gaming/arcade",
-    },
-    {
-      title: "Bowling Alley", 
-      description: "Strike up fun for all ages! Glow-in-the-dark lanes with automated scoring.",
-      image: "https://content.jdmagicbox.com/v2/comp/hyderabad/m7/040pxx40.xx40.230330221114.k8m7/catalogue/amoeba-bowling-alley-hyderabad-sports-clubs-8gBpFhH22g.jpg",
-      features: ["8 Modern Lanes", "Group Play", "Kids Bumpers"],
-      pricing: "$20/lane/hour",
-      link: "/gaming/bowling",
-    },
-    {
-      title: "VR Games",
-      description: "Step into the game! Immersive experiences with cutting-edge VR technology.",
-      image: "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Latest VR Tech", "Multiplayer Games", "Ages 12+"],
-      pricing: "$15 per session",
-      link: "/gaming/vr",
-    },
-  ];
-type FloatingIconProps = {
-  icon: any; // this ensures it’s a valid react-icons component
-  style?: any; // inline styles
-};
-  // Floating gaming icons for background
-  const FloatingIcon:React.FC<FloatingIconProps> = ({ icon: Icon, style }) => (
-    <div 
-      className="absolute text-[var(--gaming-bg-1)]/20 text-4xl md:text-6xl animate-float"
-      style={style}
-    >
-      <Icon />
-    </div>
-  );
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === games.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? games.length - 1 : prevIndex - 1
+    );
+  };
+
+  const visibleCards = 3; // Number of cards visible at once
 
   return (
-    <section id="gaming" className="py-2 pt-10 relative overflow-hidden bg-white">
-      
-      {/* Animated Background Elements */}
-      <FloatingIcon icon={FaGamepad} style={{ top: '10%', left: '5%', animationDelay: '0s' }} />
-      <FloatingIcon icon={FaDice} style={{ top: '20%', right: '5%', animationDelay: '1.5s' }} />
-      <FloatingIcon icon={GiJoystick} style={{ bottom: '15%', left: '8%', animationDelay: '2.5s' }} />
-      <FloatingIcon icon={FaStar} style={{ bottom: '25%', right: '10%', animationDelay: '3.5s' }} />
-      
-      {/* Animated grid pattern */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute inset-0 bg-grid-pattern animate-grid-move"></div>
+    <section className="relative py-20 bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(239, 249, 35, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(239, 249, 35, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+          }}
+        />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header with animation */}
-        <div className="text-center mb-8 relative">
-          {/* Animated background elements */}
-          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[var(--gaming-bg-1)]/10 rounded-full animate-pulse-slow"></div>
-          <div className="absolute -bottom-2 -right-4 w-16 h-16 bg-[var(--gaming-bg-2)]/10 rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+      <div className="relative z-10 max-w-8xl mx-auto px-4">
+        {/* Section Header */}
+        <div className={`text-center mb-16 transform transition-all duration-1000 ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}>
+          <h2 className="text-4xl lg:text-6xl font-bold text-white mb-4">
+            <span className="text-[var(--color-primary)]">GAMING</span> ZONE
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Experience the ultimate entertainment with our state-of-the-art gaming facilities
+          </p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
           
-          <div className={`relative transform transition-all duration-1000 ease-out ${
-            isVisible 
-              ? 'translate-y-0 opacity-100' 
-              : 'translate-y-10 opacity-0'
-          }`}>
-            {/* Decorative elements */}
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[var(--gaming-bg-1)] to-transparent"></div>
-            
-            <div className="relative inline-block mb-4">
-              <h2 className="text-xl md:text-3xl lg:text-6xl font-bold mb-4 relative">
-                {/* Main text with gradient */}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)]">
-                  Gaming Zone
-                </span>
-                
-                {/* Neon effect overlay */}
-                {/* <span className="absolute top-0 left-0 text-transparent bg-clip-text bg-gradient-to-r from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)] opacity-70 blur-sm">
-                  Gaming Zone
-                </span> */}
-              </h2>
+          {/* Left Side - Card Carousel (75% width) */}
+          <div className="lg:w-3/4">
+            <div className={`relative transform transition-all duration-1000 delay-300 ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}>
               
-              {/* Animated underline */}
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center"></div>
+              {/* Carousel Navigation */}
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-3xl font-bold text-white">Our Games</h3>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={prevSlide}
+                    className="w-12 h-12 bg-black border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full flex items-center justify-center hover:bg-[var(--color-primary)] hover:text-black transition-all duration-300 shadow-lg"
+                  >
+                    <FaArrowLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="w-12 h-12 bg-black border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-full flex items-center justify-center hover:bg-[var(--color-primary)] hover:text-black transition-all duration-300 shadow-lg"
+                  >
+                    <FaArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Carousel Container */}
+              <div 
+                ref={carouselRef}
+                className="relative overflow-hidden rounded-2xl"
+              >
+                <div 
+                  className="flex transition-transform duration-500 ease-out"
+                  style={{ 
+                    transform: `translateX(-${currentIndex * (100 / visibleCards)}%)`,
+                    width: `${(games.length / visibleCards) * 100}%`
+                  }}
+                >
+                  {games.map((game, index) => (
+                    <div 
+                      key={index}
+                      className="flex-shrink-0 w-1/3 px-3" // 3 cards visible
+                    >
+                      <GameCard game={game} isActive={index === currentIndex} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Carousel Indicators */}
+              <div className="flex justify-center space-x-3 mt-8">
+                {games.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentIndex ? 'bg-[var(--color-primary)] scale-125' : 'bg-gray-600'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
+          </div>
 
-            <p className="text-md md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed relative">
-              <span className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--gaming-bg-1)]/20 rounded-full animate-ping-slow"></span>
-              From classic arcades to cutting-edge VR — we've got the thrills you're looking for
-              <span className="absolute -right-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--gaming-bg-2)]/20 rounded-full animate-ping-slow" style={{animationDelay: '1s'}}></span>
-            </p>
+          {/* Right Side - 3D Image Area (25% width) */}
+          <div className="lg:w-1/4">
+            <div className={`transform transition-all duration-1000 delay-500 ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}>
+              
+              {/* 3D Image Container */}
+              <div 
+                className="relative w-full"
+                style={{
+                  transform: `perspective(1000px) rotateY(${mousePosition.x * 0.02}deg) rotateX(${mousePosition.y * -0.02}deg)`,
+                  transition: 'transform 0.1s ease-out',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                {/* Your 3D Image Goes Here */}
+                <div 
+                  className="relative rounded-2xl overflow-hidden border-4 border-[var(--color-primary)] shadow-2xl bg-gradient-to-br from-[var(--color-primary)]/10 to-black/50"
+                  style={{
+                    transform: 'translateZ(30px)',
+                    animation: 'float3D 6s ease-in-out infinite'
+                  }}
+                >
+                  <div className="w-full h-80 flex items-center justify-center">
+                    <div className="text-center text-white p-4">
+                      <FaGamepad className="text-4xl text-[var(--color-primary)] mx-auto mb-3 animate-bounce" />
+                      <p className="text-lg font-bold mb-2">3D Gaming</p>
+                      <p className="text-gray-400 text-sm">Experience immersive gaming in 3D</p>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Animated dots */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="w-3 h-3 bg-[var(--gaming-bg-1)]/30 rounded-full animate-bounce-slow"
-                  style={{animationDelay: `${i * 0.3}s`}}
-                ></div>
-              ))}
+                {/* 3D Floating Elements */}
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-black border-2 border-[var(--color-primary)] rounded-full flex items-center justify-center shadow-lg animate-bounce-slow">
+                  <FaStar className="text-[var(--color-primary)] text-lg" />
+                </div>
+                
+                <div className="absolute -bottom-3 -left-3 w-10 h-10 bg-[var(--color-primary)] rounded flex items-center justify-center border-2 border-black shadow-lg animate-pulse">
+                  <FaUsers className="text-black text-sm" />
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              {/* <div className="mt-6 space-y-3">
+                <div className="flex items-center justify-between p-3 bg-black/50 rounded-lg border border-[var(--color-primary)]/20">
+                  <span className="text-white text-sm">Active Players</span>
+                  <span className="text-[var(--color-primary)] font-bold">250+</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-black/50 rounded-lg border border-[var(--color-primary)]/20">
+                  <span className="text-white text-sm">Rating</span>
+                  <span className="text-[var(--color-primary)] font-bold">4.9/5</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-black/50 rounded-lg border border-[var(--color-primary)]/20">
+                  <span className="text-white text-sm">Open Until</span>
+                  <span className="text-[var(--color-primary)] font-bold">12AM</span>
+                </div>
+              </div> */}
             </div>
           </div>
         </div>
-
-        {/* Gaming Categories with staggered animation */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {games.map((game, index) => (
-            <div 
-              key={index} 
-              className={`group overflow-hidden rounded-3xl bg-white border border-gray-200 shadow-lg hover:shadow-[0_0_25px_var(--gaming-bg-1)]/30 transition-all duration-500 hover:-translate-y-3 relative transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-              style={{ transitionDelay: `${index * 200}ms` }}
-            >
-              
-              {/* Animated glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--gaming-bg-1)]/0 via-[var(--gaming-bg-1)]/5 to-[var(--gaming-bg-1)]/0 animate-pulse-glow rounded-3xl"></div>
-              
-              {/* Content container */}
-              <div className="relative z-10">
-                {/* Image with Text Overlay */}
-                <div className="h-48 overflow-hidden relative rounded-t-3xl">
-                  <img 
-                    src={game.image} 
-                    alt={game.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent"></div>
-                  
-                  {/* Text Overlay */}
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h3 className="text-2xl font-bold mb-1 drop-shadow-md bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                      {game.title}
-                    </h3>
-                    <p className="text-sm opacity-90 drop-shadow-md line-clamp-2">{game.description}</p>
-                  </div>
-                  
-                  {/* Popular Badge */}
-                  <div className="absolute top-4 right-4 bg-[var(--gaming-bg-1)] text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg border border-[var(--gaming-bg-1)]/50 animate-bounce-slow">
-                    Popular
-                  </div>
-                  
-                  {/* Price Tag */}
-                  <div className="absolute top-4 left-4 bg-white text-[var(--gaming-bg-1)] px-3 py-1 rounded-lg text-sm font-bold shadow-lg border border-gray-200">
-                    {game.pricing}
-                  </div>
-                </div>
-                
-                {/* Content Below Image */}
-                <div className="p-6">
-                  <div className="space-y-3 mb-4">
-                    {game.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-3 text-sm text-gray-700">
-                        <div className="w-2 h-2 bg-[var(--gaming-bg-1)] rounded-full animate-ping-slow"></div>
-                        <span className="font-medium">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="pt-4 border-t border-gray-200">
-                    <Button 
-                      className="w-full bg-gradient-to-r from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)] text-white hover:text-[var(--gaming-bg-1)] hover:border-2 hover:border-[var(--gaming-bg-1)] transition-all duration-300 py-3 rounded-xl font-semibold group-hover:scale-105 hover:shadow-lg hover:shadow-[var(--gaming-bg-1)]/30 transform hover:-translate-y-1"
-                      href={game.link}
-                    >
-                      Learn More
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA with animation */}
-        <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-[var(--gaming-bg-1)] to-[var(--gaming-bg-2)] text-white hover:text-[var(--gaming-bg-1)] hover:shadow-2xl hover:scale-110 hover:border-2 hover:border-[var(--gaming-bg-1)] transition-all duration-300 px-10 py-5 rounded-2xl font-bold text-lg group animate-pulse hover:animate-none hover:shadow-[0_0_25px_var(--gaming-bg-1)]/40"
-          >
-            <FaGamepad className="mr-3 text-xl group-hover:rotate-12 transition-transform" />
-            Explore All Games
-          </Button>
-        </div>
       </div>
 
-      {/* Add custom animations to global CSS */}
+      {/* Custom Animations */}
       <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
+        @keyframes float3D {
+          0%, 100% { 
+            transform: translateZ(30px) scale(1);
+          }
+          50% { 
+            transform: translateZ(40px) scale(1.02);
+          }
         }
-        @keyframes gridMove {
-          0% { background-position: 0 0; }
-          100% { background-position: 50px 50px; }
-        }
-        @keyframes pulseGlow {
-          0%, 100% { opacity: 0.05; }
-          50% { opacity: 0.1; }
-        }
-        @keyframes bounceSlow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes pingSlow {
-          0% { transform: scale(1); opacity: 1; }
-          75%, 100% { transform: scale(2); opacity: 0; }
-        }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-grid-move { animation: gridMove 20s linear infinite; }
-        .animate-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
-        .animate-bounce-slow { animation: bounceSlow 2s ease-in-out infinite; }
-        .animate-ping-slow { animation: pingSlow 2s cubic-bezier(0,0,0.2,1) infinite; }
-        .bg-grid-pattern {
-          background-image: linear-gradient(to right, var(--gaming-bg-1) 1px, transparent 1px),
-                            linear-gradient(to bottom, var(--gaming-bg-1) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.1; transform: scale(1); }
-          50% { opacity: 0.3; transform: scale(1.1); }
-        }
-        @keyframes ping-slow {
-          0% { transform: translateY(-50%) scale(1); opacity: 1; }
-          75%, 100% { transform: translateY(-50%) scale(2.5); opacity: 0; }
-        }
+        
         @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-5px); }
         }
-        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-        .animate-ping-slow { animation: ping-slow 2s cubic-bezier(0,0,0.2,1) infinite; }
-        .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+        
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+        }
       `}</style>
     </section>
   );
-};
+}
 
-export default GamingZone;
+// Game Card Component
+function GameCard({ game, isActive }: { game: any; isActive: boolean }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className={`relative bg-gradient-to-br from-black/80 to-gray-900/80 backdrop-blur-lg rounded-3xl overflow-hidden transition-all duration-700 group cursor-pointer shadow-2xl ${
+        isActive 
+          ? 'border-4 border-[var(--color-primary)] scale-105 shadow-[0_0_30px_rgba(239,249,35,0.3)]' 
+          : 'border-2 border-[var(--color-primary)]/20 scale-100 hover:scale-102'
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        transform: isHovered ? 'translateY(-8px) rotateX(5deg)' : 'translateY(0px) rotateX(0deg)',
+        transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      }}
+    >
+      {/* Background Glow Effect */}
+      <div className={`absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/10 to-yellow-300/5 transition-opacity duration-500 ${
+        isHovered ? 'opacity-100' : 'opacity-0'
+      }`} />
+      
+      {/* Animated Border Glow */}
+      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r from-[var(--color-primary)]/30 via-transparent to-[var(--color-primary)]/30 opacity-0 transition-opacity duration-500 ${
+        isHovered ? 'opacity-100 animate-pulse-glow' : ''
+      }`} />
+
+      {/* Game Image Container */}
+      <div className="relative h-48 sm:h-56 md:h-52 lg:h-48 xl:h-60 overflow-hidden">
+        <img 
+          src={game.image}
+          alt={game.title}
+          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+          style={{
+            filter: isHovered ? 'brightness(1.1) contrast(1.05)' : 'brightness(1) contrast(1)'
+          }}
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        
+        {/* Shine Effect */}
+        <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-all duration-1000 ${
+          isHovered ? 'translate-x-full opacity-100' : '-translate-x-full opacity-0'
+        }`} />
+
+        {/* Basic Info (Always visible) */}
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="flex items-start justify-between mb-2">
+            <h4 className="text-lg sm:text-xl font-bold text-white drop-shadow-lg leading-tight flex-1 pr-2">
+              {game.title}
+            </h4>
+            <div className="bg-[var(--color-primary)] text-black px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+              {game.pricing}
+            </div>
+          </div>
+          
+          {/* Features Preview */}
+          {/* <div className="flex flex-wrap gap-1 opacity-80">
+            {game.features.slice(0, 2).map((feature: string, index: number) => (
+              <span key={index} className="text-white/90 text-xs bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
+                {feature}
+              </span>
+            ))}
+            {game.features.length > 2 && (
+              <span className="text-white/70 text-xs bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
+                +{game.features.length - 2} more
+              </span>
+            )}
+          </div> */}
+        </div>
+
+        {/* Hover Indicator */}
+        <div className={`absolute top-4 right-4 w-8 h-8 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center border border-[var(--color-primary)]/30 transition-all duration-500 ${
+          isHovered ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+        }`}>
+          <FaArrowRight className="text-[var(--color-primary)] text-xs" />
+        </div>
+      </div>
+
+      {/* Hover Overlay with Detailed Info */}
+      <div className={`absolute inset-0 bg-gradient-to-br from-black/95 to-gray-900/95 backdrop-blur-md transition-all duration-500 flex flex-col p-5 sm:p-6 ${
+        isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}>
+        {/* Close Icon */}
+        <div className="absolute top-4 right-4 w-6 h-6 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
+          <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 flex flex-col justify-center">
+          <h4 className="text-sm sm:text-2xl font-bold text-[var(--color-primary)] mb-3 leading-tight">
+            {game.title}
+          </h4>
+          
+          <p className="text-gray-200 text-xs sm:text-base mb-4 leading-relaxed line-clamp-3">
+            {game.description}
+          </p>
+          
+          {/* Features with Icons */}
+          {/* <div className="space-y-2 mb-6">
+            {game.features.map((feature: string, index: number) => (
+              <div key={index} className="flex items-center space-x-3 group/feature">
+                <div className="w-6 h-6 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center border border-[var(--color-primary)]/30 transition-all duration-300 group-hover/feature:bg-[var(--color-primary)]/30">
+                  <div className="w-1.5 h-1.5 bg-[var(--color-primary)] rounded-full"></div>
+                </div>
+                <span className="text-gray-200 text-sm font-medium">{feature}</span>
+              </div>
+            ))}
+          </div> */}
+        </div>
+        
+        {/* CTA Button */}
+        <Link
+          href={game.link}
+          className="group/btn inline-flex items-center justify-center space-x-2 bg-[var(--color-primary)] text-black px-6 py-3 rounded-xl font-bold text-sm sm:text-base hover:scale-105 transition-all duration-300 border-2 border-black shadow-[0_4px_0_rgba(0,0,0,1)] hover:shadow-[0_6px_0_rgba(0,0,0,1)] active:scale-95 active:shadow-[0_2px_0_rgba(0,0,0,1)]"
+        >
+          <span>Explore Game</span>
+          <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover/btn:translate-x-1 transition-transform duration-200" />
+        </Link>
+      </div>
+
+      {/* Active Indicator */}
+      {isActive && (
+        <div className="absolute -top-2 -right-2 w-7 h-7 bg-[var(--color-primary)] rounded-full flex items-center justify-center border-2 border-black shadow-lg animate-pulse z-10">
+          <div className="w-2 h-2 bg-black rounded-full"></div>
+        </div>
+      )}
+
+      {/* Corner Accents */}
+      <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-[var(--color-primary)]/50 rounded-tl-3xl"></div>
+      <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-[var(--color-primary)]/50 rounded-tr-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-[var(--color-primary)]/50 rounded-bl-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-[var(--color-primary)]/50 rounded-br-3xl"></div>
+    </div>
+  );
+}
+
+// Add to your CSS
+<style jsx>{`
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .scale-102 {
+    transform: scale(1.02);
+  }
+`}</style>

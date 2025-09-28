@@ -9,11 +9,21 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
+  font-family: var(--font-montserrat); 
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-days-one), sans-serif;
 }
 
+/* Example: Apply Rajdhani to a specific button class */
+.btn-heading {
+  font-family: var(--font-rajdhani), sans-serif;
+}
 :root {
   /* Primary / brand colors */
   --color-primary: #CBFE1C;
+  /* --color-primary: #00ff00; */
   --color-secondary: #000000;
 
   /* Text colors */
@@ -47,6 +57,7 @@ body {
   
   /* Interactive states */
   --focus-ring: 0 0 0 3px rgba(239, 249, 35, 0.3);
+  --color-primary-rgb: 255, 0, 0;
 }
 *:focus-visible {
   outline: none;

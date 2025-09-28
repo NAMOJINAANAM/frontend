@@ -6,11 +6,11 @@ import Footer from "@/components/layout/Footer";
 
 const GuestLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-black">
       {/* Top Section */}
       <Header />
       {/* Main Page Content */}
-      <main className="flex-grow mx-auto w-full">
+      <main className="flex-grow mx-auto w-full bg-black">
         {children}
       </main>
 

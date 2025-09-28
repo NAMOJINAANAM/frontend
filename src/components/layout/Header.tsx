@@ -119,26 +119,26 @@ export default function Header() {
               pathname.startsWith(item.href)
                 ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-            }`}
+            } text-sm xl:text-base 2xl:text-lg`}
           >
-            <item.icon className="w-4 h-4" />
+            <item.icon className="w-4 h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
             {item.name}
-            <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${
+            <FaChevronDown className={`w-3 h-3 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 transition-transform duration-200 ${
               activeDropdown === item.name ? 'rotate-180' : ''
             }`} />
           </button>
           
           {activeDropdown === item.name && (
-            <div className="absolute top-full left-0 mt-2 w-48 bg-black border-2 border-[var(--color-primary)] rounded-lg shadow-[4px_4px_0px_0px_rgba(239,249,35,1)] z-50">
+            <div className="absolute top-full left-0 mt-2 w-48 xl:w-56 2xl:w-64 bg-black border-2 border-[var(--color-primary)] rounded-lg shadow-[4px_4px_0px_0px_rgba(239,249,35,1)] z-50">
               {item.dropdown.map((subItem) => (
                 <Link
                   key={subItem.name}
                   href={subItem.href}
-                  className="block px-4 py-3 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200 border-b border-gray-700 last:border-b-0 first:rounded-t-lg last:rounded-b-lg"
+                  className="block px-4 py-3 xl:px-5 xl:py-4 2xl:px-6 2xl:py-5 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200 border-b border-gray-700 last:border-b-0 first:rounded-t-lg last:rounded-b-lg text-sm xl:text-base 2xl:text-lg"
                   onClick={() => setActiveDropdown(null)}
                 >
                   <div className="flex items-center gap-4">
-                    <FaDice className="w-3 h-3 text-[var(--color-primary)]" />
+                    <FaDice className="w-3 h-3 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-[var(--color-primary)]" />
                     {subItem.name}
                   </div>
                 </Link>
@@ -153,9 +153,9 @@ export default function Header() {
             pathname === item.href
               ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
               : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-          }`}
+          } text-sm xl:text-base 2xl:text-lg`}
         >
-          <item.icon className="w-4 h-4" />
+          <item.icon className="w-4 h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
           {item.name}
         </Link>
       )}
@@ -167,13 +167,13 @@ export default function Header() {
       {/* Desktop Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#000000cc] shadow-lg border-b-2 border-[var(--color-primary)]' 
+          ? 'bg-[#000000cc] shadow-lg border-b-2 border-[var(--color-primary)] backdrop-blur-sm' 
           : 'bg-black'
       } hidden lg:block`}>
-        <nav className="max-w-7xl mx-auto px-4 py-3">
+        <nav className="max-w-7xl xl:max-w-full mx-auto px-4 xl:px-6 2xl:px-8 py-3 xl:py-4 2xl:py-5">
           <div className="flex items-center justify-between">
             {/* Left Navigation */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
               {navigation.slice(1, 4).map((item) => (
                 <DesktopNavItem key={item.name} item={item} />
               ))}
@@ -181,49 +181,49 @@ export default function Header() {
 
             {/* Center Logo */}
             <Link 
-  href="/" 
-  className="flex-shrink-0 transform hover:scale-105 transition-transform duration-200 relative"
->
-  {/* Geometric Background Pattern */}
-  <div className="absolute inset-0 flex items-center justify-center">
-    {/* Main Hexagon */}
-    <div className="w-24 h-24 bg-transparent relative">
-      {/* Large Hexagon */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/20 to-yellow-300/20 clip-path-hexagon transform rotate-30"></div>
-      
-      {/* Medium Hexagon */}
-      <div className="absolute inset-2 bg-gradient-to-br from-[var(--color-primary)]/30 to-yellow-300/30 clip-path-hexagon transform rotate-60"></div>
-      
-      {/* Small Hexagon */}
-      <div className="absolute inset-4 bg-gradient-to-br from-[var(--color-primary)]/40 to-yellow-300/40 clip-path-hexagon transform rotate-90"></div>
-      
-      {/* Center Star Points */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-2 h-2 bg-[var(--color-primary)]/60 rounded-full"></div>
-      </div>
-    </div>
-  </div>
+              href="/" 
+              className="flex-shrink-0 transform hover:scale-105 transition-transform duration-200 relative"
+            >
+              {/* Geometric Background Pattern */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* Main Hexagon */}
+                <div className="w-24 h-24 xl:w-28 xl:h-28 2xl:w-32 2xl:h-32 bg-transparent relative">
+                  {/* Large Hexagon */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/20 to-yellow-300/20 clip-path-hexagon transform rotate-30"></div>
+                  
+                  {/* Medium Hexagon */}
+                  <div className="absolute inset-2 xl:inset-3 2xl:inset-4 bg-gradient-to-br from-[var(--color-primary)]/30 to-yellow-300/30 clip-path-hexagon transform rotate-60"></div>
+                  
+                  {/* Small Hexagon */}
+                  <div className="absolute inset-4 xl:inset-5 2xl:inset-6 bg-gradient-to-br from-[var(--color-primary)]/40 to-yellow-300/40 clip-path-hexagon transform rotate-90"></div>
+                  
+                  {/* Center Star Points */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-2 h-2 xl:w-3 xl:h-3 2xl:w-4 2xl:h-4 bg-[var(--color-primary)]/60 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
 
-  {/* Main Logo */}
-  <div className="relative w-20 h-20 bg-[var(--color-primary)] rounded-full border-4 border-black flex items-center justify-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 z-10">
-    <div className="relative">
-      <span className="text-2xl font-bold text-black">FZ</span>
-      <FaTrophy className="absolute -top-2 -right-3 text-black text-sm" />
-    </div>
-  </div>
-</Link>
+              {/* Main Logo */}
+              <div className="relative w-20 h-20 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 bg-[var(--color-primary)] rounded-full border-4 border-black flex items-center justify-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 z-10">
+                <div className="relative">
+                  <span className="text-2xl xl:text-3xl 2xl:text-4xl font-bold text-black">FZ</span>
+                  <FaTrophy className="absolute -top-2 -right-3 xl:-top-3 xl:-right-4 2xl:-top-4 2xl:-right-5 text-black text-sm xl:text-base 2xl:text-lg" />
+                </div>
+              </div>
+            </Link>
 
             {/* Right Navigation */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
               {navigation.slice(4).map((item) => (
                 <DesktopNavItem key={item.name} item={item} />
               ))}
               <button
-            className={`flex items-center gap-1 px-4 py-3 rounded-lg transition-all duration-200 border-2 cursor-pointer bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
-          >
-            <FaBook className="w-4 h-4" />
-            Book Now
-          </button>
+                className={`flex items-center gap-1 px-4 py-3 rounded-lg transition-all duration-200 border-2 cursor-pointer bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-sm xl:text-base 2xl:text-lg`}
+              >
+                <FaBook className="w-4 h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
+                Book Now
+              </button>
             </div>
           </div>
         </nav>
@@ -234,18 +234,13 @@ export default function Header() {
         <div className="px-3 py-2">
           <div className="flex items-center justify-between">
             {/* Menu Button */}
-            {/* <button
+            <button
               onClick={() => setShowMobileNav(!showMobileNav)}
               className="p-2 rounded-lg bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
             >
               {showMobileNav ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
-            </button> */}
-            
-            <button
-              className="bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
-            >
-              <FaBook className="w-4 h-4" />
             </button>
+            
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <div className="w-14 h-14 bg-[var(--color-primary)] rounded-full border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -264,7 +259,7 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation Drawer */}
-        {/* {showMobileNav && (
+        {showMobileNav && (
           <div className="absolute top-full left-0 right-0 bg-black border-b-2 border-[var(--color-primary)] shadow-lg">
             <div className="p-3 space-y-2">
               {navigation.map((item) => (
@@ -281,7 +276,7 @@ export default function Header() {
                       >
                         <div className="flex items-center gap-4">
                           <item.icon className="w-4 h-4" />
-                          <span>{item.name}</span>
+                          <span className="text-sm">{item.name}</span>
                         </div>
                         <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${
                           activeDropdown === item.name ? 'rotate-180' : ''
@@ -299,7 +294,7 @@ export default function Header() {
                             >
                               <div className="flex items-center gap-4">
                                 <FaDice className="w-3 h-3" />
-                                {subItem.name}
+                                <span className="text-sm">{subItem.name}</span>
                               </div>
                             </Link>
                           ))}
@@ -317,14 +312,14 @@ export default function Header() {
                       onClick={closeMobileNav}
                     >
                       <item.icon className="w-4 h-4" />
-                      {item.name}
+                      <span className="text-sm">{item.name}</span>
                     </Link>
                   )}
                 </div>
               ))}
             </div>
           </div>
-        )} */}
+        )}
       </header>
 
       {/* Mobile Bottom Navigation - Optimized for small screens */}
@@ -412,12 +407,12 @@ export default function Header() {
         onMouseLeave={() => setShowBookText(false)}
       >
         <div className={`flex items-center gap-4 transition-all duration-300 ${
-          showBookText ? 'pr-4 pl-3 py-3' : 'p-3'
+          showBookText ? 'pr-4 pl-3 py-3 xl:pr-5 xl:pl-4 xl:py-4 2xl:pr-6 2xl:pl-5 2xl:py-5' : 'p-3 xl:p-4 2xl:p-5'
         }`}>
-          <FaBook className="w-5 h-5 flex-shrink-0" />
+          <FaBook className="w-5 h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7 flex-shrink-0" />
           <span className={`whitespace-nowrap transition-all duration-300 ${
             showBookText ? 'max-w-32 opacity-100' : 'max-w-0 opacity-0'
-          } overflow-hidden`}>
+          } overflow-hidden text-sm xl:text-base 2xl:text-lg font-medium`}>
             Book Now
           </span>
         </div>
@@ -427,14 +422,14 @@ export default function Header() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 z-50 w-12 h-12 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black flex items-center justify-center transition-all duration-200 hover:scale-110 lg:bottom-6 lg:right-6"
+          className="fixed bottom-4 right-4 z-50 w-12 h-12 xl:w-14 xl:h-14 2xl:w-16 2xl:h-16 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black flex items-center justify-center transition-all duration-200 hover:scale-110 lg:bottom-6 lg:right-6"
         >
-          <FaChevronUp className="w-5 h-5" />
+          <FaChevronUp className="w-5 h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
         </button>
       )}
 
       {/* Spacer for fixed header */}
-      <div className="h-16 lg:h-24"></div>
+      <div className="h-16 lg:h-24 xl:h-28 2xl:h-32"></div>
     </>
   );
 }
