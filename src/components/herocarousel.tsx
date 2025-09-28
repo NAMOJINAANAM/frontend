@@ -117,7 +117,7 @@ export default function HeroSection() {
 
     <div className="text-center px-4">
       <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-primary)]">10K+</div>
-      <div className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Happy Players</div>
+      <div className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Players</div>
     </div>
     
 
