@@ -25,7 +25,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-fit bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
+    <section className="relative min-h-fit bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Background Elements */}
       <div className="absolute inset-0">
         {/* Grid pattern */}
@@ -116,8 +116,8 @@ export default function HeroSection() {
     <div className="h-12 sm:h-16 md:h-20 w-px bg-gradient-to-b from-transparent via-[var(--color-primary)]/60 to-transparent mx-2 sm:mx-4 md:mx-6"></div>
 
     <div className="text-center px-4">
-      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-primary)]">10K+</div>
-      <div className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Players</div>
+      <div className="text-lg md:text-xl lg:text-xl xl:text-2xl font-bold text-white">10K+</div>
+      <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Players</div>
     </div>
     
 
@@ -125,8 +125,8 @@ export default function HeroSection() {
     
 
     <div className="text-center px-4">
-      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-primary)]">50+</div>
-      <div className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Games</div>
+      <div className="text-lg md:text-xl lg:text-xl xl:text-2xl font-bold text-white">50+</div>
+      <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Games</div>
     </div>
     
 
@@ -134,8 +134,8 @@ export default function HeroSection() {
     
 
     <div className="text-center px-4">
-      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--color-primary)]">24/7</div>
-      <div className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Fun</div>
+      <div className="text-lg md:text-xl lg:text-xl xl:text-2xl font-bold text-white">24/7</div>
+      <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2">Fun</div>
     </div>
   </div>
 </div>
@@ -144,7 +144,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 lg:gap-6 mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-16">
             <Link
               href="/book-now"
-              className="group relative bg-[var(--color-primary)] text-black px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-4 lg:px-10 lg:py-5 xl:px-12 xl:py-6 rounded-xl font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl hover:scale-105 transition-all duration-300 border-2 border-black shadow-lg hover:shadow-xl flex items-center gap-2 sm:gap-3 justify-center max-w-xs sm:max-w-sm md:max-w-md"
+              className="group relative bg-[var(--color-primary)] text-black px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-4 lg:px-10 lg:py-5 xl:px-12 xl:py-6 rounded-xl font-bold text-sm sm:text-base md:text-lg xl:text-xl hover:scale-105 transition-all duration-300 border-2 border-black shadow-lg hover:shadow-xl flex items-center gap-2 sm:gap-3 justify-center max-w-xs sm:max-w-sm md:max-w-md"
             >
               <FaGamepad className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
               <span>BOOK NOW</span>

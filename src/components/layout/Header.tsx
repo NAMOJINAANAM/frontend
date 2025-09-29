@@ -118,7 +118,7 @@ export default function Header() {
             className={`flex items-center gap-1 px-4 py-3 rounded-lg transition-all duration-200 border-2 ${
               pathname.startsWith(item.href)
                 ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-black text-white border-white hover:border-[var(--color-primary)] cursor-pointer hover:text-[var(--color-primary)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
             } text-sm xl:text-base 2xl:text-lg`}
           >
             <item.icon className="w-4 h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
@@ -152,7 +152,7 @@ export default function Header() {
           className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 border-2 ${
             pathname === item.href
               ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-              : 'bg-black text-white border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+              : 'bg-black text-white border-white hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
           } text-sm xl:text-base 2xl:text-lg`}
         >
           <item.icon className="w-4 h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
@@ -395,7 +395,7 @@ export default function Header() {
       </nav>
 
       {/* Floating Book Now Button */}
-      <Link
+      {/* <Link
         href="/book-now"
         className="fixed z-50 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:scale-105 flex items-center gap-4"
         style={{
@@ -416,7 +416,7 @@ export default function Header() {
             Book Now
           </span>
         </div>
-      </Link>
+      </Link> */}
 
       {/* Scroll to Top Button */}
       {showScrollTop && (

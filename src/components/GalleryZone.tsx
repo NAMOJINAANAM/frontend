@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button";
 import { FaImages, FaVideo, FaArrowLeft, FaArrowRight, FaTimes, FaExpand, FaCamera, FaFilm, FaStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const GalleryZone = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -185,17 +186,19 @@ const GalleryZone = () => {
   );
 
   return (
-    <section id="gallery" className="py-2 pt-10 relative overflow-hidden bg-white">
-      
-      {/* Animated Background Elements */}
-      <FloatingIcon icon={FaCamera} style={{ top: '10%', left: '5%', animationDelay: '0s' }} />
-      <FloatingIcon icon={FaFilm} style={{ top: '20%', right: '5%', animationDelay: '1.5s' }} />
-      <FloatingIcon icon={FaImages} style={{ bottom: '15%', left: '8%', animationDelay: '2.5s' }} />
-      <FloatingIcon icon={FaStar} style={{ bottom: '25%', right: '10%', animationDelay: '3.5s' }} />
-      
+    <section id="gallery" className="py-1 sm:py-2 lg:py-3 relative overflow-hidden bg-gradient-to-bl from-black via-gray-900 to-black">    
       {/* Animated grid pattern */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute inset-0 bg-grid-pattern animate-grid-move"></div>
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(239, 249, 35, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(239, 249, 35, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -213,39 +216,20 @@ const GalleryZone = () => {
             {/* Decorative elements */}
             <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[var(--gallery-bg-1)] to-transparent"></div>
             
-            <div className="relative inline-block mb-4">
+            <div className="relative inline-block mb-1">
               <h2 className="text-xl md:text-3xl lg:text-6xl font-bold mb-4 relative">
                 {/* Main text with gradient */}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)]">
+                <span className="text-white bg-clip-text bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)]">
                   Gallery Zone
                 </span>
-                
-                {/* Neon effect overlay */}
-                {/* <span className="absolute top-0 left-0 text-transparent bg-clip-text bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)] opacity-70 blur-sm">
-                  Gallery Zone
-                </span> */}
               </h2>
-              
-              {/* Animated underline */}
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center"></div>
             </div>
 
-            <p className="text-md md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed relative">
+            {/* <p className="text-md md:text-2xl text-white max-w-3xl mx-auto leading-relaxed relative">
               <span className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--gallery-bg-1)]/20 rounded-full animate-ping-slow"></span>
               Relive the best moments from our venue — gaming triumphs, celebrations, and delicious food
               <span className="absolute -right-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-[var(--gallery-bg-2)]/20 rounded-full animate-ping-slow" style={{animationDelay: '1s'}}></span>
-            </p>
-
-            {/* Animated dots */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="w-3 h-3 bg-[var(--gallery-bg-1)]/30 rounded-full animate-bounce-slow"
-                  style={{animationDelay: `${i * 0.3}s`}}
-                ></div>
-              ))}
-            </div>
+            </p> */}
           </div>
         </div>
 
@@ -257,8 +241,8 @@ const GalleryZone = () => {
               onClick={() => setSelectedCategory(category)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:-translate-y-1 ${
                 selectedCategory === category 
-                  ? "bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)] text-white shadow-lg" 
-                  : "bg-white/80 text-gray-700 border border-gray-200 hover:shadow-md"
+                ? "bg-white/80 text-gray-700 border border-[var(--color-primary)] hover:shadow-md"
+                : "border border-[var(--color-primary)] text-[var(--color-primary)] shadow-lg" 
               }`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -275,7 +259,7 @@ const GalleryZone = () => {
               style={{ transitionDelay: `${index * 100}ms` }}
               onClick={() => openLightbox(index)}
             >
-              <div className="overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-lg hover:shadow-[0_0_25px_var(--gallery-bg-1)]/30 transition-all duration-500">
+              <div className="overflow-hidden rounded-2xl bg-white border border-[var(--color-primary)] shadow-lg hover:shadow-[0_0_25px_var(--gallery-bg-1)]/30 transition-all duration-500">
                 <div className="relative">
                   <img 
                     src={item.thumbnail} 
@@ -288,7 +272,7 @@ const GalleryZone = () => {
                       <p className="text-white/90 text-xs md:text-sm drop-shadow-md line-clamp-1">{item.description}</p>
                     </div>
                   </div>
-                  <div className="absolute top-3 right-3 bg-white/90 text-[var(--gallery-bg-1)] p-2 rounded-full backdrop-blur-sm">
+                  <div className="absolute top-3 right-3 bg-[var(--color-primary)]/90 text-white p-2 rounded-full backdrop-blur-sm">
                     {item.type === "video" ? <FaVideo className="text-sm" /> : <FaImages className="text-sm" />}
                   </div>
                   <div className="absolute top-3 left-3 bg-[var(--gallery-bg-1)] text-white px-2 py-1 rounded text-xs font-bold capitalize">
@@ -301,15 +285,16 @@ const GalleryZone = () => {
         </div>
 
         {/* CTA */}
-        <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-[var(--gallery-bg-1)] to-[var(--gallery-bg-2)] text-white hover:text-[var(--gallery-bg-1)] hover:shadow-2xl hover:scale-110 hover:border-2 hover:border-[var(--gallery-bg-1)] transition-all duration-300 px-10 py-5 rounded-2xl font-bold text-lg group animate-pulse hover:animate-none hover:shadow-[0_0_25px_var(--gallery-bg-1)]/40"
+        <div className={`text-center transform transition-all duration-1000 delay-500 ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}>
+          <Link
+            className="inline-flex items-center gap-3 border border-[var(--color-primary)] text-[var(--color-primary)] px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all duration-300 shadow-2xl"
             href="/gallery"
           >
             <FaImages className="mr-3 text-xl group-hover:rotate-12 transition-transform" />
             See More Memories
-          </Button>
+          </Link>
         </div>
       </div>
 

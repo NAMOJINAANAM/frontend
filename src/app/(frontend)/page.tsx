@@ -7,19 +7,19 @@ import CelebrationZone from "@/components/CelebrationZone";
 import GalleryZone from "@/components/GalleryZone";
 import BlogPreview from "@/components/BlogPreview";
 import ContactLocation from "@/components/ContactLocation";
+import GamingCategories from "@/components/GamingCategories";
 export default function Home() {
 
   return (
     <GuestLayout>
     <ZoneCarousel/>
     <GamingZone/>
-      <div className="h-0.5 bg-black"></div>
-    <FoodZone/>
-      <div className="h-0.5 bg-black"></div>
+     <GamingCategories/>
     <CelebrationZone/>
-      <div className="h-0.5 bg-black"></div>
+    <FoodZone/>
+      {/* <div className="h-0.5 bg-black"></div> */}
     <GalleryZone/>
-      <div className="h-0.5 bg-black"></div>
+      {/* <div className="h-0.5 bg-black"></div> */}
     <BlogPreview/>
     <ContactLocation/>
     </GuestLayout>
