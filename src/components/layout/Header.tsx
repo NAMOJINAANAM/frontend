@@ -134,6 +134,7 @@ export default function Header() {
                 <Link
                   key={subItem.name}
                   href={subItem.href}
+                  title={subItem.href}
                   className="block px-4 py-3 xl:px-5 xl:py-4 2xl:px-6 2xl:py-5 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200 border-b border-gray-700 last:border-b-0 first:rounded-t-lg last:rounded-b-lg text-sm xl:text-base 2xl:text-lg"
                   onClick={() => setActiveDropdown(null)}
                 >
@@ -149,6 +150,7 @@ export default function Header() {
       ) : (
         <Link
           href={item.href}
+          title={item.href}
           className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 border-2 ${
             pathname === item.href
               ? 'bg-[var(--color-primary)] text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
@@ -182,6 +184,7 @@ export default function Header() {
             {/* Center Logo */}
             <Link 
               href="/" 
+              title="/" 
               className="flex-shrink-0 transform hover:scale-105 transition-transform duration-200 relative"
             >
               {/* Geometric Background Pattern */}
@@ -242,7 +245,7 @@ export default function Header() {
             </button>
             
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
+            <Link href="/" title="/" className="flex-shrink-0">
               <div className="w-14 h-14 bg-[var(--color-primary)] rounded-full border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <span className="text-lg font-bold text-black">FZ</span>
               </div>
@@ -251,6 +254,7 @@ export default function Header() {
             {/* Contact Button */}
             <Link
               href="/contact"
+              title="/contact"
               className="bg-black text-[var(--color-primary)] border-2 border-[var(--color-primary)] px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-primary)] hover:text-black transition-all duration-200"
             >
               <FaPhone className="w-4 h-4" />
@@ -289,6 +293,7 @@ export default function Header() {
                             <Link
                               key={subItem.name}
                               href={subItem.href}
+                              title={subItem.href}
                               className="block px-3 py-2 text-white hover:bg-[var(--color-primary)] hover:text-black rounded transition-all duration-200"
                               onClick={closeMobileNav}
                             >
@@ -304,6 +309,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href}
+                      title={item.href}
                       className={`flex items-center gap-4 p-3 rounded-lg transition-all duration-200 border-2 ${
                         pathname === item.href
                           ? 'bg-[var(--color-primary)] text-black border-black'
@@ -330,6 +336,7 @@ export default function Header() {
           {/* Gaming */}
           <Link
             href="/gaming"
+            title="/gaming"
             className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
               pathname.startsWith('/gaming')
                 ? 'text-[var(--color-primary)] bg-black'
@@ -343,6 +350,7 @@ export default function Header() {
           {/* Celebration */}
           <Link
             href="/celebrations"
+            title="/celebrations"
             className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
               pathname.startsWith('/celebrations')
                 ? 'text-[var(--color-primary)] bg-black'
@@ -356,6 +364,7 @@ export default function Header() {
           {/* Home - Center */}
           <Link
             href="/"
+            title="/"
             className={`flex flex-col items-center p-3 rounded-full transition-all duration-200 min-w-[60px] -mt-4 ${
               pathname === '/'
                 ? 'bg-[var(--color-primary)] text-black border-2 border-black'
@@ -369,6 +378,7 @@ export default function Header() {
           {/* Food */}
           <Link
             href="/food"
+            title="/food"
             className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
               pathname.startsWith('/food')
                 ? 'text-[var(--color-primary)] bg-black'
@@ -382,6 +392,7 @@ export default function Header() {
           {/* Gallery */}
           <Link
             href="/gallery"
+            title="/gallery"
             className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
               pathname.startsWith('/gallery')
                 ? 'text-[var(--color-primary)] bg-black'
@@ -397,6 +408,7 @@ export default function Header() {
       {/* Floating Book Now Button */}
       {/* <Link
         href="/book-now"
+        title="/book-now"
         className="fixed z-50 bg-[var(--color-primary)] text-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:scale-105 flex items-center gap-4"
         style={{
           top: '50%',

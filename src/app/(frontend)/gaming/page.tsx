@@ -5,6 +5,7 @@ import GamingCategories from "@/components/gaming/GamingCategories";
 import GamingCatalog from "@/components/gaming/GamingCatalog";
 import GamingTournaments from "@/components/gaming/GamingTournaments";
 import GuestLayout from "@/app/layouts/GuestLayout";
+import CTA from "@/components/CTA";
 
 const GamingZone = () => {
   return (
@@ -12,8 +13,14 @@ const GamingZone = () => {
       <GuestLayout>
       <GamingHero />
       <GamingCategories />
-      <GamingCatalog />
-      <GamingTournaments />
+<CTA
+  title="Ready to Level Up Your Experience?"
+  subtitle="Get Started Today"
+  description="Join thousands of satisfied players and discover why we're the top choice for premium gaming entertainment."
+  image="/images/CTAimg.png"
+  buttonText="Book Now"
+  buttonLink="/booking"
+/>
       </GuestLayout>
       {/* Add custom styles */}
       <style jsx>{`

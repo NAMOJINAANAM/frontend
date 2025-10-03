@@ -64,6 +64,7 @@ export default function HeroSection() {
           <img 
             src="https://ex-coders.com/html/pubzi/assets/img/home-1/hero/poly-liquid.png" 
             alt="Gaming Experience" 
+            title="Gaming Experience" 
             className="w-full h-full object-contain"
             style={{
               transform: isClient ?
@@ -144,6 +145,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 lg:gap-6 mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-16">
             <Link
               href="/book-now"
+              title="/book-now"
               className="group relative bg-[var(--color-primary)] text-black px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-4 lg:px-10 lg:py-5 xl:px-12 xl:py-6 rounded-xl font-bold text-sm sm:text-base md:text-lg xl:text-xl hover:scale-105 transition-all duration-300 border-2 border-black shadow-lg hover:shadow-xl flex items-center gap-2 sm:gap-3 justify-center max-w-xs sm:max-w-sm md:max-w-md"
             >
               <FaGamepad className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />

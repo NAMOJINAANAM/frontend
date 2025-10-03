@@ -245,7 +245,7 @@ export default function GamingShowcase() {
   
   {/* View All Card */}
   <div className="aspect-square min-w-0">
-    <Link href="/gaming">
+    <Link href="/gaming" title="/gaming">
       <div className={`
         group relative bg-gradient-to-br from-gray-800/60 to-gray-900/90 backdrop-blur-xl 
         rounded-2xl p-3 border-2 border-gray-700/40 
@@ -277,6 +277,7 @@ export default function GamingShowcase() {
             <img
               src="/images/foodimage.png"
               alt="View All Categories"
+              title="View All Categories"
               className="w-full h-full object-cover transform scale-136 bg-transparent  transition-transform duration-700"
             />
             
@@ -370,6 +371,7 @@ export default function GamingShowcase() {
                   <img
                     src={game.media}
                     alt={game.title}
+                    title={game.title}
                     className="w-full h-full object-cover rounded-xl sm:rounded-2xl transform group-hover:scale-105 transition-transform duration-700"
                   />
                 )}
@@ -443,7 +445,7 @@ export default function GamingShowcase() {
 // Updated Category Card Component with better mobile styling
 function CategoryCard({ category, isActive }: { category: any; isActive: boolean }) {
   return (
-    <Link href={category.link}>
+    <Link href={category.link} title={category.link}>
       <div className={`
         group relative bg-gradient-to-br from-gray-800/60 to-gray-900/90 backdrop-blur-xl 
         rounded-2xl p-3 border-2 border-gray-700/40 
@@ -476,6 +478,7 @@ function CategoryCard({ category, isActive }: { category: any; isActive: boolean
             <img
               src={category.image}
               alt={category.name}
+              title={category.name}
               className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
             />
             

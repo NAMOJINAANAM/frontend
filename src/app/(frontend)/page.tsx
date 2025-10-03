@@ -8,9 +8,17 @@ import GalleryZone from "@/components/GalleryZone";
 import BlogPreview from "@/components/BlogPreview";
 import ContactLocation from "@/components/ContactLocation";
 import GamingCategories from "@/components/GamingCategories";
+import Seo from "@/lib/seo";
 export default function Home() {
 
-  return (
+  return (<>
+  
+    <Seo
+        title="Namojinaanam | Entertainment Hub"
+        description="Namojinaanam is your ultimate entertainment destination featuring a vibrant gaming zone, delicious food, celebration spaces, gallery, and more. Book now for unforgettable experiences."
+        keywords="GameZone, Gaming Zone, Food Zone,Celebrations, Entertainment"
+        url="/"
+      />
     <GuestLayout>
     <ZoneCarousel/>
     <GamingZone/>
@@ -23,5 +31,6 @@ export default function Home() {
     <BlogPreview/>
     <ContactLocation/>
     </GuestLayout>
+  </>
   );
 }

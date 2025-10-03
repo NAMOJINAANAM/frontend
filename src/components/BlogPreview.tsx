@@ -176,6 +176,7 @@ export default function BlogZone() {
                 <img
                   src={featuredPost.image}
                   alt={featuredPost.title}
+                  title={featuredPost.title}
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
@@ -241,6 +242,7 @@ export default function BlogZone() {
 
                 <Link
                   href={`/blog/${featuredPost.id}`}
+                  title={`/blog/${featuredPost.id}`}
                   className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition-all duration-300 border-2 border-black shadow-[0_3px_0_rgba(0,0,0,1)] hover:shadow-[0_5px_0_rgba(0,0,0,1)] active:scale-95 w-fit group/btn"
                 >
                   <span>Read Full Story</span>
@@ -266,6 +268,7 @@ export default function BlogZone() {
                 <img
                   src={post.image}
                   alt={post.title}
+                  title={post.title}
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -326,6 +329,7 @@ export default function BlogZone() {
                   </div>
                   <Link
                     href={`/blog/${post.id}`}
+                    title={`/blog/${post.id}`}
                     className="flex items-center gap-1 text-[var(--color-primary)] hover:text-white transition-colors duration-300 group/readmore"
                   >
                     <span className="text-sm font-medium">Read More</span>
@@ -343,6 +347,7 @@ export default function BlogZone() {
         }`}>
           <Link
             href="/blog"
+            title="/blog"
             className="inline-flex items-center gap-3 border border-[var(--color-primary)] text-[var(--color-primary)] px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all duration-300 shadow-2xl"
           >
             <FaBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />

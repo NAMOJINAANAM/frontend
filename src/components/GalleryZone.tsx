@@ -264,6 +264,7 @@ const GalleryZone = () => {
                   <img 
                     src={item.thumbnail} 
                     alt={item.title}
+                    title={item.title}
                     className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -291,6 +292,7 @@ const GalleryZone = () => {
           <Link
             className="inline-flex items-center gap-3 border border-[var(--color-primary)] text-[var(--color-primary)] px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all duration-300 shadow-2xl"
             href="/gallery"
+            title="/gallery"
           >
             <FaImages className="mr-3 text-xl group-hover:rotate-12 transition-transform" />
             See More Memories
@@ -327,6 +329,7 @@ const GalleryZone = () => {
               <img 
                 src={filteredMedia[currentMediaIndex].src} 
                 alt={filteredMedia[currentMediaIndex].title}
+                title={filteredMedia[currentMediaIndex].title}
                 className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
               />
             ) : (

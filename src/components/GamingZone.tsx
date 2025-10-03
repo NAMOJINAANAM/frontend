@@ -138,6 +138,7 @@ export default function GamingSection() {
                   <img 
                     src="https://ex-coders.com/html/pubzi/assets/img/home-1/about/superhero.png" 
                     alt="3D Gaming Experience"
+                    title="3D Gaming Experience"
                     className="w-full h-auto object-cover transform transition-transform duration-1000"
                     style={{
                       transform: `translateZ(30px) rotateY(${mousePosition.x * 0.01}deg)`,
@@ -279,6 +280,7 @@ export default function GamingSection() {
                             <img 
                               src={game.image} 
                               alt={game.title}
+                              title={game.title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -522,6 +524,7 @@ function GameCard({ game, isActive, index, visibleCards }: {
           <img 
             src={game.image}
             alt={game.title}
+            title={game.title}
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
             style={{
               filter: isHovered 
@@ -616,6 +619,7 @@ function GameCard({ game, isActive, index, visibleCards }: {
         {/* Enhanced CTA Button */}
         <Link
           href={game.link}
+          title={game.link}
           className="group/btn relative overflow-hidden bg-[var(--color-primary)] px-6 py-3 rounded-xl font-bold text-sm hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-[0_0_30px_rgba(239,249,35,0.6)] border-2 border-white/20 active:scale-95 transform hover:-translate-y-0.5"
         >
           <span className="relative z-10 flex items-center justify-center space-x-2">

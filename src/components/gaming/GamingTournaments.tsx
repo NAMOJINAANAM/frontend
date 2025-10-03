@@ -53,6 +53,7 @@ const GamingTournaments = () => {
                 <img 
                   src={tournament.image} 
                   alt={tournament.title}
+                  title={tournament.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--gaming-bg-1)]/80 to-transparent"></div>

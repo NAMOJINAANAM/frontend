@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
   const animationClass = isMounted ? 'animate-fade-in' : 'opacity-0';
 
   return href?(
-    <Link href={`${href}`}>
+    <Link href={`${href}`} title={`${href}`}>
     <button
       className={`cursor-pointer ${baseClasses} ${variants[variant]} ${sizes[size]} ${disabledClasses} ${animationClass} ${className}`}
       disabled={disabled || isLoading}

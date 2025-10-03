@@ -52,7 +52,7 @@ export default function Footer() {
           
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-6">
+            <Link href="/" title="/" className="inline-block mb-6">
               <div className="w-20 h-20 bg-[var(--color-primary)] rounded-full border-4 border-black flex items-center justify-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200">
                 <div className="relative">
                   <span className="text-2xl font-bold text-black">FZ</span>
@@ -91,6 +91,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link 
                     href={link.href}
+                    title={link.href}
                     className="text-gray-300 hover:text-[var(--color-primary)] transition-all duration-200 flex items-center gap-2 group"
                   >
                     <FaArrowRight className="w-3 h-3 text-[var(--color-primary)] transform group-hover:translate-x-1 transition-transform duration-200" />
@@ -162,6 +163,7 @@ export default function Footer() {
             {/* Book Now Button */}
             <Link
               href="/book-now"
+              title="/book-now"
               className="inline-flex items-center gap-2 bg-[var(--color-primary)] text-black px-6 py-3 rounded-lg font-bold mt-6 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:scale-105"
             >
               <FaGamepad className="w-4 h-4" />
@@ -200,16 +202,16 @@ export default function Footer() {
             </div>
             
             <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <Link href="/privacy" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+              <Link href="/privacy" title="/privacy" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+              <Link href="/terms" title="/terms" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
                 Terms of Service
               </Link>
-              <Link href="/safety" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+              <Link href="/safety" title="/safety" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
                 Safety Guidelines
               </Link>
-              <Link href="/careers" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
+              <Link href="/careers" title="/careers" className="text-gray-400 hover:text-[var(--color-primary)] transition-colors duration-200">
                 Careers
               </Link>
             </div>

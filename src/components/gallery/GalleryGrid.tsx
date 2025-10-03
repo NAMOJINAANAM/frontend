@@ -157,6 +157,7 @@ const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
                   <img 
                     src={item.src} 
                     alt={item.title}
+                    title={item.title}
                     className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
                     onClick={() => openLightbox(item)}
                   />
@@ -209,6 +210,7 @@ const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
                 <img 
                   src={selectedImage.src} 
                   alt={selectedImage.title}
+                  title={selectedImage.title}
                   className="w-full h-auto max-h-[70vh] object-contain"
                 />
                 

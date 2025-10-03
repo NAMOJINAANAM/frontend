@@ -151,6 +151,7 @@ export default function FoodZone() {
               <img
                 src={item.image}
                 alt={item.title}
+                title={item.title}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -228,6 +229,7 @@ export default function FoodZone() {
           <img
             src={dish.image}
             alt={dish.name}
+            title={dish.name}
             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
           />
           <div className={`absolute ${index % 2 === 1 ? 'bottom-3' : 'top-3'} left-3 bg-[var(--color-primary)] text-black px-3 py-1 rounded-full text-xs font-bold border border-white/30`}>
@@ -286,6 +288,7 @@ export default function FoodZone() {
         }`}>
           <Link
             href="/food/menu"
+            title="/food/menu"
             className="inline-flex items-center gap-3 border border-[var(--color-primary)] text-[var(--color-primary)] px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all duration-300 shadow-2xl"
           >
             <FaUtensils className="w-5 h-5 sm:w-6 sm:h-6" />
